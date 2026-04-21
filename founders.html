@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Community Founders — Gather</title>
+  <meta name="description" content="Launch the community your city is asking for. Gather's AI-powered launch engine turns an idea into a bookable community in a single day — name, logo, landing page, ad copy, and a venue. You bring the vision; we build the business around it." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta property="og:site_name" content="Gather" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gather — Communities start here." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:title" content="Launch your community — Gather" />
+  <meta property="og:description" content="Turn an idea into a live community in a single day. Gather handles everything that isn't the gathering itself." />
+  <meta property="og:url" content="https://gather.place/founders" />
+  <meta name="twitter:title" content="Launch your community — Gather" />
+  <meta name="twitter:description" content="Turn an idea into a live community in a single day. Gather handles everything that isn't the gathering itself." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="assets/tailwind-browser.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-parchment: #f5f2ec; --color-midnight: #0f0e0c; --color-amber: #c8a96e;
+      --color-cognac: #8a6e3e; --color-stone: #7a7670; --color-dust: #d8d2c8;
+      --font-serif: "Cormorant Garamond", Georgia, serif; --font-sans: "DM Sans", system-ui, sans-serif;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    html, body { background: #f5f2ec; color: #0f0e0c; }
+    body { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+    .display { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; }
+    .eyebrow { font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; font-size: 11px; }
+    .hair { border-color: #d8d2c8; }
+    ::selection { background: #c8a96e; color: #0f0e0c; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease-out, transform 700ms ease-out; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+        .dropcap::first-letter { float: left; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; color: #8a6e3e; font-size: 5.4em; line-height: 0.85; margin-right: 12px; margin-top: 8px; padding-top: 4px; }
+    .photo-placeholder { background-color: #e4ddcf; background-image: repeating-linear-gradient(135deg, rgba(138,110,62,0.055) 0 1px, transparent 1px 14px); }
+    .field { background: transparent; border: 0; border-bottom: 1px solid #d8d2c8; padding: 14px 2px; font-family: "DM Sans", sans-serif; font-weight: 300; font-size: 16px; color: #0f0e0c; width: 100%; outline: none; transition: border-color 300ms ease; }
+    .field::placeholder { color: #a39d93; } .field:focus { border-color: #0f0e0c; }
+    select.field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230f0e0c' stroke-width='1'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 28px; }
+    textarea.field { min-height: 140px; padding: 14px; border: 1px solid #d8d2c8; border-radius: 2px; }
+    .cta, a.cta { display: inline-block; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.04em; padding: 16px 28px; font-size: 14px; border-radius: 2px; transition: background 300ms ease, color 300ms ease, transform 300ms ease; cursor: pointer; border: 0; }
+    .cta:hover { transform: translateY(-1px); }
+    .cta-amber { background: #c8a96e; color: #0f0e0c; } .cta-amber:hover { background: #b89659; }
+    .cta-cognac { background: #8a6e3e; color: #f5f2ec; } .cta-cognac:hover { background: #76592f; }
+    .qlink { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .qlink::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; opacity: 0.6; transform-origin: left; transition: transform 400ms ease; }
+    .qlink:hover::after { transform: scaleX(0.6); }
+    ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: #f5f2ec; } ::-webkit-scrollbar-thumb { background: #d8d2c8; border-radius: 0; }
+    .nav-link:hover { color: #c8a96e !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+  <link rel="stylesheet" href="assets/motion.css?v=4" />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="env,react" src="assets/site-chrome.jsx"></script>
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+    const N = ({children}) => <span style={{fontVariantNumeric:'tabular-nums',fontWeight:500,color:'#8a6e3e'}}>{children}</span>;
+
+    function App() {
+      return (
+        <>
+          <SiteNav current="founders.html" />
+          <PageHero
+            image="assets/founders-paint-class.png"
+            tagline="For community founders"
+            title={<>Build the <em className="italic" style={{color:'#8a6e3e'}}>community</em> your city is asking for.</>}
+            thesis="Somewhere in your city, dozens of people have already signalled they want the community you'd be good at running. Gather tells you who they are, gives you the tools to host them, and handles everything that isn't the gathering itself."
+          />
+
+          <SectionTransition bg="#efebe2" />
+          <Benefits
+            eyebrow="What we handle — so you can host"
+            title={<>Everything that isn't the <em className="italic" style={{color:'#8a6e3e'}}>gathering</em> itself.</>}
+            items={[
+              { lead: 'A demand list of people who already want what you\'d run.', desc: 'We show you the interest lists in your city and how many people have signed up.' },
+              { lead: 'Signups, payments, and cancellations — handled.', desc: 'We run checkout, reminders, waitlists, refunds, and payouts.' },
+              { lead: 'A proper page for your community.', desc: 'Clean, editable, with photos, details, past sessions, testimonials.' },
+              { lead: 'Venue and teacher networks in your city.', desc: 'Borrow kitchens, studios, and rooms at partner rates.' },
+              { lead: 'A 15% platform fee. Nothing hidden.', desc: 'No monthly subscription, no transaction fees, no surprise charges.' },
+              { lead: 'A code of conduct, and a team that enforces it.', desc: 'We handle disputes, refunds, and removing people who shouldn\'t be there.' },
+            ]}
+          />
+
+          <CuratedInventory
+            eyebrow="Communities that work on Gather"
+            title={<>What people are <em className="italic" style={{color:'#8a6e3e'}}>building</em>.</>}
+            intro="Every community is different, but they share a shape. Here's the kind of thing that fits."
+            categories={[
+              { header: 'AI & building',           items: ['AI practitioner circles','prompt engineering groups','builder communities','vibe coding collectives','tool-specific meetups (Claude, GPT, Cursor)'] },
+              { header: 'Music & sound',           items: ['music production meetups','DJ practice collectives','producer circles','listening clubs','vinyl societies'] },
+              { header: 'Scheduled gatherings',    items: ['monthly dinner clubs','weekly run groups','biweekly book clubs','seasonal salons','quarterly retreats'] },
+              { header: 'Practice communities',    items: ['founder circles','creative groups','parent collectives','language learners','writing groups'] },
+              { header: 'Interest clubs',          items: ['chess','board games','film','photography','wine','cocktails','plants','cycling'] },
+              { header: 'Pop-up & seasonal',       items: ['supper club residencies','festival adjacencies','retreat weekends','summer series','winter salons'] },
+            ]}
+          />
+
+          <section className="w-full pb-10 relative overflow-hidden" style={{background:'#e8e2d4'}}>
+            <div aria-hidden style={{position:'absolute', inset:0, backgroundImage:'url("assets/founders-ai-tools-club.png")', backgroundSize:'cover', backgroundPosition:'center', opacity:0.18, pointerEvents:'none', zIndex:0}} />
+            <div style={{position:'relative', zIndex:1}}>
+            <SectionHead eyebrow="How it works, in practice" title={<>Two kinds of <em className="italic" style={{color:'#8a6e3e'}}>founders</em>.</>} />
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-12 pb-8">
+              <div className="md:col-span-6 md:col-start-4 font-serif text-[20px] md:text-[22px] leading-[1.55] space-y-5" style={{color:'#2a2722'}}>
+                <p>Some founders want a side hustle — a community that earns real money alongside their day job. Others want connection — a room full of people they care about, with a small host fee to justify the time. Gather works for both.</p>
+                <p>Sarah runs a members-only entrepreneurs dinner club. It's a side hustle.</p>
+                <p>Andre runs a monthly AI practitioners meetup. It's a community with a host fee.</p>
+                <p className="italic" style={{color:'#55514a'}}>Same platform. Different lives. Here's how each of them built it.</p>
+              </div>
+            </div>
+            </div>
+          </section>
+
+          <section className="w-full pb-20 md:pb-28">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-8 pb-4">
+              <div className="eyebrow" style={{color:'#8a6e3e'}}>Scenario 01 — A side hustle</div>
+            </div>
+
+            <CharacterPullout name="Meet Sarah." photo="assets/sarah.png" photoAlt="Sarah, Bridgeland Founders host">
+              <p className="dropcap">Sarah is 34, lives in Bridgeland, and runs marketing for a Calgary fintech. For two years she's been telling friends she wants to start an entrepreneurs club — a small, serious, monthly dinner for founders and operators who want real conversations about building, not another networking-card-exchange.</p>
+              <p>She has the Google Doc. She has the mailing list of maybe twelve people who said "yes, tell me when." She has never sent the email.</p>
+            </CharacterPullout>
+
+            <SectionTransition bg="#f5f2ec" />
+
+            <Beat pullQuote="She's talked to her members. That's it." first eyebrow="Day One" title={<>She <em className="italic" style={{color:'#8a6e3e'}}>launches</em> in an afternoon.</>}>
+              <p>Sarah signs up at gather.place on a Sunday. The AI launch engine asks her six questions: what's the community, who's it for, how often does it meet, what should it cost, what's the vibe, where in the city.</p>
+              <p>Forty minutes later she has a name (<em>Bridgeland Founders</em>), a logo, and a landing page at gather.place/bridgeland-founders. A membership structure — <N>$85/month</N>, capped at <N>20 members</N>, monthly dinners plus a private digital space. Ad copy and three creative variants ready to run on Meta, targeted to Calgary founders aged 28–45. A 90-day launch plan. A matched venue — a private dining room at a Calgary restaurant with available Thursday evenings. First dinner booked for three weeks out.</p>
+              <p>She runs <N>$300</N> of ads that week and emails the twelve people on her list. By Friday she has <N>nine</N> confirmed members. By the following Thursday, <N>eighteen</N>.</p>
+              <p>She hasn't designed a logo, negotiated with a venue, set up Stripe, or built a landing page. She's talked to her members. That's it.</p>
+            </Beat>
+
+            <Beat pullQuote="Her weekly overhead. Fifteen minutes." eyebrow="Month Three" title={<>The rhythm is <em className="italic" style={{color:'#8a6e3e'}}>set</em>.</>}>
+              <p>Three dinners in. Twenty members, a waitlist of eleven. Sarah's monthly revenue is <N>$1,700</N> — <N>$1,445</N> after the 15% platform fee. Her venue costs are handled by Gather directly out of that pool. Her actual take-home is around <N>$950 per month</N> after venue and materials.</p>
+              <p>More importantly, the community has a life of its own. Members are messaging each other between dinners. Two of them have started doing business together. One wrote a LinkedIn post about the club that brought in six new waitlist signups overnight.</p>
+              <p>Sarah hasn't sent a reminder email, chased a payment, or dealt with a no-show. The platform handles all of it. She opens the dashboard on Monday mornings to see who's coming Thursday. That's her weekly overhead. <N>Fifteen minutes</N>.</p>
+            </Beat>
+
+            <Beat pullQuote="Something she spends maybe four hours a month actively running." eyebrow="Year One" title={<>It's a <em className="italic" style={{color:'#8a6e3e'}}>real</em> thing.</>}>
+              <p>Twelve dinners in. Sarah has run two special events — a founder retreat at a Canmore lodge, a fireside chat with a well-known Calgary investor. The membership has stabilized at <N>24 active members</N> with a rolling waitlist she manages by inviting two or three new people per quarter.</p>
+              <p>Annual revenue through the community: <N>~$24,000</N>. After platform fees, venue costs, and dinner materials, Sarah's clearing around <N>$11,000 a year</N> from something she spends maybe four hours a month actively running.</p>
+              <p>She still has her day job. Bridgeland Founders is a side thing. But it's a side thing that pays for her vacations, has introduced her to twenty people she genuinely likes, and gave her a platform in Calgary's founder scene she didn't have before.</p>
+              <p>She did not become a marketer. She did not become a web designer. She did not become an operations person. She did the thing she actually wanted to do, which was gather people — and Gather did everything else.</p>
+            </Beat>
+          </section>
+
+          <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-16 flex flex-col items-center gap-6 border-t hair">
+            <ConvergenceMark size={28} color="#8a6e3e" />
+            <ConvergenceMark size={20} color="#c8a96e" />
+            <ConvergenceMark size={14} color="#d8d2c8" />
+          </div>
+
+          <section className="w-full pt-16 pb-24 md:pb-32" style={{background:'#efebe2'}}>
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-8 pb-4">
+              <div className="eyebrow" style={{color:'#8a6e3e'}}>Scenario 02 — A community with a host fee</div>
+            </div>
+
+            <CharacterPullout name="Meet Andre." photo="assets/andre.png" photoAlt="Andre, Calgary AI Practitioners host">
+              <p className="dropcap">Andre is 33, works at ATB in Calgary building internal AI systems, and is genuinely ahead of the curve. He's spent the last two years integrating Claude and GPT into enterprise workflows, writing automations that save his team hundreds of hours a month, and quietly becoming the person everyone at the bank forwards their "how do I use AI for this?" questions to.</p>
+              <p>He doesn't want to teach. He doesn't want to run a business. What he wants is something that doesn't quite exist in Calgary yet — a room, once a month, of serious AI practitioners who are actually building things and want to compare notes. Engineers using Claude in production. Marketers automating their workflows with GPT. Product managers shipping AI features.</p>
+              <p>Not a meetup with a sponsor and a pizza. Not a conference with a keynote. A real conversation, small enough that everyone talks, consistent enough that the same people start to know each other.</p>
+            </CharacterPullout>
+
+            <SectionDivider />
+
+            <Beat pullQuote="He doesn't want to teach. He doesn't want to run a business." first eyebrow="Day One" title={<>He <em className="italic" style={{color:'#8a6e3e'}}>launches</em> in an afternoon.</>}>
+              <p>Andre signs up at gather.place on a Thursday night. He tells the AI launch engine this isn't a business. It's a community. Members should split the cost of the space and he wants a small host fee for the work of running it — enough to justify his time, not enough to feel like a side hustle.</p>
+              <p>An hour later he has a name (<em>Calgary AI Practitioners</em>), a logo, and a landing page. A membership structure — <N>$40/month</N>, capped at <N>18 members</N>, monthly evening sessions. The math is transparent on the landing page: <N>$25</N> covers the per-member share of the venue and refreshments, <N>$10</N> is Andre's host fee, <N>$5</N> covers platform costs.</p>
+              <p>Ad copy targeted narrowly to Calgary software engineers, data scientists, product managers, and marketers with AI-adjacent roles. A matched venue — a modern co-working lounge with good AV and a large central table, available the second Wednesday of every month.</p>
+              <p>He runs <N>$200</N> of ads that first week and posts the landing page to two Slack communities he's part of. By the following weekend he has <N>14</N> confirmed members.</p>
+            </Beat>
+
+            <Beat pullQuote="It's a fair trade for the work. That's the point." eyebrow="Month Three" title={<>A real <em className="italic" style={{color:'#8a6e3e'}}>community</em> takes shape.</>}>
+              <p>Three sessions in. Membership is full at <N>18</N>, with a waitlist of seven. The format has settled: each session opens with two 15-minute show-and-tells from members demoing something they're working on, followed by open discussion, followed by dinner at the long table.</p>
+              <p>Andre's monthly take-home: about <N>$180</N> after expenses and platform fees. It's not life-changing money, and it was never supposed to be. It covers the four or five hours a month he spends organizing. It's a fair trade for the work. That's the point.</p>
+              <p>What's more interesting is what's happening inside the community. Two members have started collaborating on a side project. One got a job lead from another. A Slack channel has formed between sessions that's active most days. Andre has become, without meaning to, a known figure in the small-but-growing Calgary AI scene.</p>
+            </Beat>
+
+            <Beat pullQuote="He built a community. That was the point." eyebrow="Year One" title={<>It's a <em className="italic" style={{color:'#8a6e3e'}}>fixture</em>.</>}>
+              <p>Twelve sessions in. Calgary AI Practitioners has become a small institution in the local tech scene. Membership has turned over a bit — some people left as their interests shifted, new ones joined from the waitlist — but the core has held.</p>
+              <p>Andre has earned about <N>$2,000</N> over the year in host fees. It's genuinely a rounding error on his ATB salary, and that's exactly the relationship he wanted with this thing. It's a community, not a business. But it pays enough that the time investment is sustainable, which is the difference between a thing that thrives for a year and a thing that fizzles by month four because the organizer burned out.</p>
+              <p>He built a community. That was the point.</p>
+            </Beat>
+          </section>
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <StatementBanner text={<>Gather people. We'll handle the <em className="italic" style={{color:'#8a6e3e'}}>rest</em>.</>} />
+
+          <SectionTransition bg="#f5f2ec" />
+
+          <FAQ
+            eyebrow="Founder questions"
+            title={<>What you need to <em className="italic" style={{color:'#8a6e3e'}}>know</em> before starting.</>}
+            items={[
+              { q: 'Do I need to be an experienced teacher or business owner?', a: "No. Most of our founders have never run anything. What matters is that you have a thing you're good at and want to share, and the consistency to run it on a schedule." },
+              { q: "How do I know there's demand for what I'd run?", a: 'When you onboard, we show you the interest lists in your city relevant to your skill set. If the community you want to run already has 30+ people waiting for it, that\'s your green light.' },
+              { q: 'What does Gather take?', a: 'A flat 15% platform fee on each booking. No subscription, no setup cost, no hidden fees.' },
+              { q: 'How much time does this take each week?', a: 'Most founders report 2–4 hours of prep per session plus the session itself. If you\'re running once a month, you\'re looking at roughly half a day of work.' },
+              { q: 'Do I need my own venue?', a: 'No. Gather has a network of venue partners you can book at partner rates. Or use your own space.' },
+              { q: "What if a session doesn't fill?", a: 'You set a minimum headcount. If it\'s not met, the session auto-cancels and guests are automatically refunded.' },
+              { q: 'Can I run a community alongside a full-time job?', a: 'Yes — that\'s how most of our founders start.' },
+              { q: 'What if someone behaves badly?', a: "Flag it. Our team handles the conversation, the refund if needed, and the removal. You don't have to be the one to tell someone they can't come back." },
+            ]}
+          />
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <PageCTA
+            headline="There's a room you could be hosting."
+            prompt="Tell us about what you'd run. We'll match you to the demand that already exists."
+            buttonLabel="Apply to become a founder"
+            role="founder"
+          />
+
+          <SectionDivider />
+
+          <SiteFooter pageNumber="03" />
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="assets/motion.js"></script>
+</body>
+</html>

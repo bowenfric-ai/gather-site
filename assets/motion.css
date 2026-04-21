@@ -1,0 +1,824 @@
+/* ============================================================
+   Gather — ambient motion
+   Everything here is intentionally slow, small, and quiet.
+   Nothing should draw the eye; only be missed in absence.
+   ============================================================ */
+
+/* Motion 6 — link color transitions everywhere.
+   Scoped to links to avoid interfering with form controls / buttons
+   that already define their own transitions. */
+a, a:visited {
+  transition: color 300ms ease;
+}
+
+/* Detail 3 — unified text selection color across the site. */
+::selection { background: #c8a96e; color: #0f0e0c; }
+::-moz-selection { background: #c8a96e; color: #0f0e0c; }
+
+/* Motion 2 — Beat / CharacterPullout fade-up reveal.
+   Site-chrome already toggles `.reveal.in` via IntersectionObserver.
+   Spec: opacity 0→1, translateY 24px→0, 600ms ease-out, triggered
+   when the element crosses 20% into the viewport. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms ease-out, transform 600ms ease-out;
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Motion 4 — Section background transition.
+   Sections ease their background-color in over 200ms when they
+   come into view. We start them transparent (inheriting parchment)
+   and let a JS observer swap in data-bg. */
+[data-section-bg] {
+  transition: background-color 200ms ease;
+}
+
+/* Motion 5 — Convergence mark idle pulse.
+   Three dots cycle opacity 0.6 → 1 → 0.6 over 1.8s, each offset
+   by 0.3s so they pulse sequentially.  */
+@keyframes gatherDotPulse {
+  0%, 100% { opacity: 0.6; }
+  50%      { opacity: 1;   }
+}
+.gather-dot { animation: gatherDotPulse 1.8s ease-in-out infinite; }
+.gather-dot-1 { animation-delay: 0s;    }
+.gather-dot-2 { animation-delay: 0.3s;  }
+.gather-dot-3 { animation-delay: 0.6s;  }
+
+/* Motion 7 — Hero scroll cue pulse.
+   Small amber vertical line below the dots. Opacity 0.4 → 1 → 0.4
+   over 2.5s. */
+@keyframes gatherScrollCue {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1;   }
+}
+.gather-scroll-cue {
+  display: inline-block;
+  width: 1px;
+  height: 40px;
+  background: #c8a96e;
+  animation: gatherScrollCue 2.5s ease-in-out infinite;
+}
+.gather-scroll-cue-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+.gather-scroll-cue-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.gather-scroll-cue-dots span {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: #c8a96e;
+}
+
+/* Motion 1 — hero image parallax.
+   The image lives in a dedicated layer that gets translated by JS
+   scroll listener; the text is a separate layer that scrolls normally. */
+.gather-hero-image {
+  position: absolute;
+  inset: -10% 0 -10% 0; /* extra height so translate doesn't reveal edges */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .gather-dot,
+  .gather-scroll-cue { animation: none; opacity: 1; }
+  .gather-hero-image { transform: none !important; }
+}
+
+
+/* Nav CTA — Join waitlist button.
+   Refined: leading dot, generous padding, inner hairline ring,
+   confident type. Amber ground with deeper cognac ring + hover. */
+.gather-cta-waitlist {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  line-height: 1;
+  padding: 11px 22px 11px 20px;
+  letter-spacing: 0.02em !important;
+  /* Inner hairline: amber-deepened ring inset by 1px.
+     Outer 1px keeps edge crisp over photo hero. */
+  box-shadow:
+    inset 0 0 0 1px rgba(15, 14, 12, 0.12),
+    0 1px 0 rgba(15, 14, 12, 0.06);
+  transition: background 400ms ease, color 400ms ease,
+              box-shadow 400ms ease, letter-spacing 400ms ease !important;
+}
+@media (min-width: 768px) {
+  .gather-cta-waitlist {
+    font-size: 13px;
+    padding: 12px 26px 12px 22px;
+  }
+}
+.gather-cta-waitlist .gather-cta-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #0f0e0c;
+  display: inline-block;
+  transition: background 400ms ease, transform 400ms ease;
+  flex-shrink: 0;
+}
+.gather-cta-waitlist:hover {
+  background: #0f0e0c !important;
+  color: #f5f2ec !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(200, 169, 110, 0.85),
+    0 1px 0 rgba(15, 14, 12, 0.08) !important;
+  letter-spacing: 0.04em !important;
+}
+.gather-cta-waitlist:hover .gather-cta-dot {
+  background: #c8a96e;
+  transform: scale(1.3);
+}
+
+
+/* Editorial scroll cue — horizontal line pulse. */
+@keyframes gatherHeroScrollLine {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 0.9; }
+}
+.gather-hero-scroll-line {
+  animation: gatherHeroScrollLine 2.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gather-hero-scroll-line { animation: none; opacity: 0.7; }
+}
+
+
+/* Section transition band — 48px mobile, 96px tablet+. */
+.gather-section-transition {
+  height: 48px;
+}
+@media (min-width: 768px) {
+  .gather-section-transition {
+    height: 96px;
+  }
+}
+
+
+/* Scenario body — elevated editorial reading experience.
+   Targets paragraphs inside CharacterPullout and Beat components. */
+.scenario-body {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.6;
+  color: #2a2722;
+  max-width: 62ch;
+}
+@media (min-width: 768px) {
+  .scenario-body {
+    font-size: 22px;
+  }
+}
+.scenario-body p {
+  margin: 0;
+}
+.scenario-body p + p {
+  margin-top: 28px;
+}
+
+/* Small-caps lede treatment for the first line of the first paragraph
+   (the one with the .dropcap class, which starts each CharacterPullout). */
+.scenario-body p.dropcap::first-line {
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  color: #0f0e0c;
+}
+
+/* Italic emphasis inside scenarios — cognac pull, same weight as body. */
+.scenario-body em,
+.scenario-body i {
+  font-style: italic;
+  color: #8a6e3e;
+  font-weight: inherit;
+}
+
+
+/* ============================================================
+   Button + link treatments — centralized polish.
+   Overrides per-page inline .cta / .qlink rules via source order.
+   ============================================================ */
+
+/* Primary button — editorial italic pill. */
+.cta, a.cta {
+  display: inline-block;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 17px;
+  letter-spacing: 0.01em;
+  padding: 16px 36px;
+  border-radius: 999px;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+  transition: background 400ms ease, color 400ms ease, box-shadow 400ms ease, transform 400ms ease;
+}
+.cta:hover { transform: translateY(-1px); }
+
+.cta-amber { background: #c8a96e; color: #0f0e0c; }
+.cta-amber:hover {
+  background: #8a6e3e;
+  color: #0f0e0c;
+  box-shadow: inset 0 0 0 1px rgba(200, 169, 110, 0.5);
+}
+
+.cta-cognac { background: #8a6e3e; color: #f5f2ec; }
+.cta-cognac:hover {
+  background: #6e572f;
+  color: #f5f2ec;
+  box-shadow: inset 0 0 0 1px rgba(200, 169, 110, 0.5);
+}
+
+/* Secondary / "Learn more" link — quiet uppercase text link with soft underline. */
+.qlink {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+  background: transparent;
+  color: #8a6e3e;
+  font-family: "DM Sans", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 300ms ease;
+}
+.qlink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 1px;
+  background: #c8a96e;
+  opacity: 0.4;
+  transform: none;
+  transition: opacity 300ms ease;
+}
+.qlink:hover {
+  color: #0f0e0c;
+}
+.qlink:hover::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* Standard inline prose links — cognac text, soft amber underline. */
+.scenario-body a,
+.prose-link {
+  color: #8a6e3e;
+  text-decoration: none;
+  background-image: linear-gradient(#c8a96e, #c8a96e);
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  background-position: 0 calc(100% + 4px);
+  padding-bottom: 4px;
+  opacity: 1;
+  transition: color 300ms ease, background-image 300ms ease;
+}
+.scenario-body a { opacity: 1; }
+.scenario-body a::before,
+.prose-link::before {
+  /* Using background-image already above; this block is just to keep 0.5 default underline opacity. */
+}
+.scenario-body a,
+.prose-link {
+  /* Default underline at 0.5 opacity */
+  background-image: linear-gradient(rgba(200, 169, 110, 0.5), rgba(200, 169, 110, 0.5));
+}
+.scenario-body a:hover,
+.prose-link:hover {
+  color: #0f0e0c;
+  background-image: linear-gradient(#c8a96e, #c8a96e);
+}
+
+
+/* Footer — 3-column link grid on desktop, single centered column on mobile. */
+.gather-footer-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.gather-footer-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.gather-footer-meta {
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.gather-footer a:hover {
+  color: #c8a96e !important;
+}
+@media (min-width: 768px) {
+  .gather-footer-grid {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 96px;
+  }
+  .gather-footer-col {
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .gather-footer-col:nth-child(1) { text-align: right; align-items: flex-end; }
+  .gather-footer-col:nth-child(2) { text-align: center; align-items: center; }
+  .gather-footer-col:nth-child(3) { text-align: left; align-items: flex-start; }
+  .gather-footer-meta {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+}
+
+
+/* ============================================================
+   Final polish pass — refined interactions.
+   ============================================================ */
+
+/* Refinement 1 — Nav link underline from center. */
+.nav-link {
+  position: relative;
+  transition: color 300ms ease;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  bottom: -2px;
+  height: 1px;
+  background: #c8a96e;
+  transition: left 300ms ease, right 300ms ease;
+}
+.nav-link:hover {
+  color: #c8a96e !important;
+}
+.nav-link:hover::after {
+  left: 0;
+  right: 0;
+  transition: left 300ms ease, right 300ms ease;
+}
+.nav-link:not(:hover)::after {
+  transition: left 200ms ease, right 200ms ease;
+}
+
+/* Refinement 2 — Beat hover depth. */
+.gather-beat-quote {
+  color: #8a6e3e;
+}
+.gather-beat:hover .gather-beat-quote {
+  color: #0f0e0c;
+}
+.gather-beat-numeral {
+  display: inline-block;
+  padding: 2px 8px;
+  margin-left: -8px;
+  border-radius: 8px;
+  background: rgba(200, 169, 110, 0);
+  transition: background 400ms ease;
+}
+.gather-beat:hover .gather-beat-numeral {
+  background: rgba(200, 169, 110, 0.08);
+}
+
+/* Refinement 3 — FAQ active-state left border. */
+.gather-faq-item {
+  position: relative;
+  transition: padding-left 300ms ease;
+}
+.gather-faq-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #c8a96e;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+.gather-faq-item[data-open="true"]::before {
+  opacity: 1;
+}
+
+/* Refinement 6 — Primary button active depress. */
+.cta:active, a.cta:active {
+  transform: scale(0.98);
+  transition: transform 100ms ease;
+}
+
+/* Refinement 7 — Nav CTA idle glow. Soft amber bloom. */
+.nav-waitlist-cta {
+  animation: gather-cta-glow 4.5s ease-in-out infinite;
+}
+@keyframes gather-cta-glow {
+  0%, 100% {
+    box-shadow:
+      inset 0 0 0 1px rgba(15, 14, 12, 0.12),
+      0 1px 0 rgba(15, 14, 12, 0.06),
+      0 0 0 0 rgba(200, 169, 110, 0);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 1px rgba(15, 14, 12, 0.12),
+      0 1px 0 rgba(15, 14, 12, 0.06),
+      0 0 0 8px rgba(200, 169, 110, 0.18);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-waitlist-cta { animation: none; }
+}
+
+
+/* ============================================================
+   CuratedInventory — collapsible, editorial category index.
+   Each row: cognac italic header + cognac "+" indicator, with
+   a hairline below. Clicking expands to reveal comma-separated
+   items in prose form.
+   ============================================================ */
+.gather-ci-list {
+  display: block;
+}
+.gather-ci-item {
+  border-bottom: 1px solid #d8d2c8;
+}
+.gather-ci-item:first-child {
+  border-top: 1px solid #d8d2c8;
+}
+.gather-ci-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 56px;
+  padding: 14px 4px;
+  cursor: pointer;
+  transition: background-color 200ms ease, transform 200ms ease;
+  user-select: none;
+  outline: none;
+}
+.gather-ci-row:hover {
+  background-color: rgba(232, 226, 212, 0.5);
+}
+.gather-ci-row:focus-visible {
+  box-shadow: inset 0 0 0 1px rgba(138, 110, 62, 0.4);
+  border-radius: 2px;
+}
+.gather-ci-header {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.gather-ci-toggle {
+  flex-shrink: 0;
+  width: 1em;
+  text-align: center;
+}
+
+/* Expandable panel — animate via max-height + opacity. */
+.gather-ci-panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 300ms ease-out,
+    opacity 300ms ease-out;
+}
+.gather-ci-panel[data-open="true"] {
+  /* Large enough for long comma lists; rows are short prose. */
+  max-height: 600px;
+  opacity: 1;
+}
+.gather-ci-panel-inner {
+  padding: 16px 4px 24px 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gather-ci-row,
+  .gather-ci-toggle,
+  .gather-ci-panel {
+    transition: none;
+  }
+}
+
+
+/* ============================================================
+   Living manifest — drifting masthead of communities + venues.
+   Two rows, opposite directions, different speeds, pause on hover.
+   ============================================================ */
+.gather-manifest {
+  background: #efebe2;
+  overflow: hidden;
+  padding: 36px 0;
+}
+@media (min-width: 768px) {
+  .gather-manifest { padding: 44px 0; }
+}
+.gather-manifest-row {
+  position: relative;
+  overflow: hidden;
+  /* fade the left + right edges into the section background */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 120px,
+    #000 calc(100% - 120px),
+    transparent 100%
+  );
+          mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 120px,
+    #000 calc(100% - 120px),
+    transparent 100%
+  );
+}
+.gather-manifest-row + .gather-manifest-row {
+  margin-top: 24px;
+}
+.gather-manifest-track {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  width: max-content;
+  will-change: transform;
+}
+.gather-manifest-item {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 300;
+  font-style: normal;
+  letter-spacing: -0.01em;
+  font-size: clamp(22px, 2.4vw, 32px);
+  color: rgba(15, 14, 12, 0.75);
+  line-height: 1;
+}
+.gather-manifest-sep {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+  /* convergence mark inline — 11px triangle */
+}
+.gather-manifest-sep svg {
+  display: block;
+}
+
+@keyframes gatherManifestLeft {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes gatherManifestRight {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gather-manifest-row-1 .gather-manifest-track {
+    animation: gatherManifestLeft 90s linear infinite;
+  }
+  .gather-manifest-row-2 .gather-manifest-track {
+    animation: gatherManifestRight 110s linear infinite;
+  }
+  .gather-manifest:hover .gather-manifest-track {
+    animation-play-state: paused;
+  }
+}
+
+/* Reduced motion: show a static, centered list, no scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  .gather-manifest-row {
+    -webkit-mask-image: none;
+            mask-image: none;
+  }
+  .gather-manifest-track {
+    flex-wrap: wrap;
+    white-space: normal;
+    width: 100%;
+    justify-content: center;
+    gap: 0;
+  }
+}
+
+
+/* ============================================================
+   Four-sided marketplace diagram — scroll reveal + ambient flow.
+   Quiet, slow, never mechanical. Only noticed in stillness.
+   ============================================================ */
+
+.gather-fsd { display: block; }
+
+/* --- Initial states (before scroll-in) --- */
+.gather-fsd .fsd-line {
+  stroke: #8a6e3e;
+  stroke-opacity: 0.3;
+  stroke-width: 0.8;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  fill: none;
+}
+.gather-fsd .fsd-node { opacity: 0; transform: scale(0.7); transform-origin: center; transform-box: fill-box; }
+.gather-fsd .fsd-label { opacity: 0; }
+.gather-fsd .fsd-ring-static { opacity: 0; }
+.gather-fsd .fsd-conv-dot { opacity: 0; }
+.gather-fsd .fsd-wordmark { opacity: 0; }
+.gather-fsd .fsd-pulse-group,
+.gather-fsd .fsd-particle { opacity: 0; }
+
+/* --- Stage 1 (0–800ms): nodes + labels fade in, staggered 150ms --- */
+@keyframes fsdNodeIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes fsdLabelIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.gather-fsd.in-view .fsd-node {
+  animation: fsdNodeIn 520ms ease-out forwards;
+}
+.gather-fsd.in-view .fsd-label {
+  animation: fsdLabelIn 520ms ease-out forwards;
+}
+.gather-fsd.in-view .fsd-node-0 { animation-delay: 0ms; }
+.gather-fsd.in-view .fsd-node-1 { animation-delay: 150ms; }
+.gather-fsd.in-view .fsd-node-2 { animation-delay: 300ms; }
+.gather-fsd.in-view .fsd-node-3 { animation-delay: 450ms; }
+.gather-fsd.in-view .fsd-label-0 { animation-delay: 100ms; }
+.gather-fsd.in-view .fsd-label-1 { animation-delay: 250ms; }
+.gather-fsd.in-view .fsd-label-2 { animation-delay: 400ms; }
+.gather-fsd.in-view .fsd-label-3 { animation-delay: 550ms; }
+
+/* --- Stage 2 (800–1600ms): lines draw from corner to center --- */
+@keyframes fsdLineDraw {
+  to { stroke-dashoffset: 0; }
+}
+.gather-fsd.in-view .fsd-line {
+  animation: fsdLineDraw 800ms ease-out 800ms forwards;
+}
+
+/* --- Stage 3 (1600–2200ms): center ring, convergence dots, wordmark --- */
+@keyframes fsdFadeIn {
+  to { opacity: 1; }
+}
+.gather-fsd.in-view .fsd-ring-static {
+  animation: fsdFadeIn 500ms ease-out 1600ms forwards;
+}
+.gather-fsd.in-view .fsd-conv-dot {
+  animation: fsdFadeIn 400ms ease-out forwards;
+}
+.gather-fsd.in-view .fsd-conv-dot-0 { animation-delay: 1720ms; }
+.gather-fsd.in-view .fsd-conv-dot-1 { animation-delay: 1800ms; }
+.gather-fsd.in-view .fsd-conv-dot-2 { animation-delay: 1880ms; }
+.gather-fsd.in-view .fsd-wordmark {
+  animation: fsdFadeIn 520ms ease-out 2000ms forwards;
+}
+
+/* --- Stage 4 (perpetual): particle flow + center pulse ---
+   Wrapped in a no-preference query so reduced-motion users
+   see the final static state instead. */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Pulse ring group: scale 1.0 → 1.12 from center, opacity 0.35 → 0. */
+  @keyframes fsdPulse {
+    0%   { transform: translate(360px, 210px) scale(1);    opacity: 0.35; }
+    100% { transform: translate(360px, 210px) scale(1.12); opacity: 0;    }
+  }
+
+  /* Convergence dots glow in sync with the pulse. */
+  @keyframes fsdConvGlow {
+    0%, 100% { opacity: 1;    }
+    50%      { opacity: 0.55; }
+  }
+
+  .gather-fsd.in-view .fsd-pulse-group {
+    opacity: 1;
+    transform-box: fill-box;
+    animation: fsdPulse 5500ms ease-in-out 2200ms infinite;
+  }
+  .gather-fsd.in-view .fsd-conv-dot {
+    /* After the initial fade-in delay, begin the glow cycle.
+       Adding a second named animation keeps the fade-in working. */
+    animation:
+      fsdFadeIn 400ms ease-out forwards,
+      fsdConvGlow 5500ms ease-in-out 2200ms infinite;
+  }
+
+  /* Particles — per-corner translations.
+     Each corner has 3 particles with different sizes and offset delays.
+     transform: translate(startX, startY) → translate(360, 210).
+     Linear easing; irregular corner durations. */
+
+  /* Venues (140,90) — 4s */
+  @keyframes fsdFlyVenues {
+    0%   { transform: translate(140px, 90px);  opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { transform: translate(360px, 210px); opacity: 0; }
+  }
+  /* Founders (580,90) — 4.4s */
+  @keyframes fsdFlyFounders {
+    0%   { transform: translate(580px, 90px);  opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { transform: translate(360px, 210px); opacity: 0; }
+  }
+  /* Teachers (140,330) — 4.2s */
+  @keyframes fsdFlyTeachers {
+    0%   { transform: translate(140px, 330px); opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { transform: translate(360px, 210px); opacity: 0; }
+  }
+  /* Members (580,330) — 3.8s */
+  @keyframes fsdFlyMembers {
+    0%   { transform: translate(580px, 330px); opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { transform: translate(360px, 210px); opacity: 0; }
+  }
+
+  .gather-fsd .fsd-particle {
+    /* particles are <circle cx="0" cy="0"> and positioned purely by transform
+       so the keyframes above control both trajectory and start point */
+    fill: #c8a96e;
+  }
+  .gather-fsd.in-view .fsd-particle {
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    /* per-corner properties set on instance classes below;
+       shared delay so perpetual flow begins after reveal (2200ms). */
+  }
+
+  /* Venues particles */
+  .gather-fsd.in-view .fsd-p-venues-0 { animation: fsdFlyVenues 4000ms linear 2200ms infinite; }
+  .gather-fsd.in-view .fsd-p-venues-1 { animation: fsdFlyVenues 4000ms linear 3600ms infinite; }
+  .gather-fsd.in-view .fsd-p-venues-2 { animation: fsdFlyVenues 4000ms linear 4900ms infinite; }
+
+  /* Founders particles */
+  .gather-fsd.in-view .fsd-p-founders-0 { animation: fsdFlyFounders 4400ms linear 2350ms infinite; }
+  .gather-fsd.in-view .fsd-p-founders-1 { animation: fsdFlyFounders 4400ms linear 3900ms infinite; }
+  .gather-fsd.in-view .fsd-p-founders-2 { animation: fsdFlyFounders 4400ms linear 5400ms infinite; }
+
+  /* Teachers particles */
+  .gather-fsd.in-view .fsd-p-teachers-0 { animation: fsdFlyTeachers 4200ms linear 2500ms infinite; }
+  .gather-fsd.in-view .fsd-p-teachers-1 { animation: fsdFlyTeachers 4200ms linear 3950ms infinite; }
+  .gather-fsd.in-view .fsd-p-teachers-2 { animation: fsdFlyTeachers 4200ms linear 5350ms infinite; }
+
+  /* Members particles */
+  .gather-fsd.in-view .fsd-p-members-0 { animation: fsdFlyMembers 3800ms linear 2280ms infinite; }
+  .gather-fsd.in-view .fsd-p-members-1 { animation: fsdFlyMembers 3800ms linear 3550ms infinite; }
+  .gather-fsd.in-view .fsd-p-members-2 { animation: fsdFlyMembers 3800ms linear 4820ms infinite; }
+}
+
+/* --- Reduced motion: skip the perpetual flow, show static final state --- */
+@media (prefers-reduced-motion: reduce) {
+  .gather-fsd .fsd-node,
+  .gather-fsd .fsd-label,
+  .gather-fsd .fsd-ring-static,
+  .gather-fsd .fsd-conv-dot,
+  .gather-fsd .fsd-wordmark {
+    opacity: 1;
+    transform: none;
+  }
+  .gather-fsd .fsd-line {
+    stroke-dashoffset: 0;
+  }
+  .gather-fsd .fsd-pulse-group,
+  .gather-fsd .fsd-particle {
+    display: none;
+  }
+}

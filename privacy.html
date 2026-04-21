@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy — Gather</title>
+  <meta name="description" content="How Gather handles your data. Short version: we collect as little as possible and delete it if you ask." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta property="og:site_name" content="Gather" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gather — Communities start here." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:title" content="Privacy — Gather" />
+  <meta property="og:description" content="How Gather handles your data. Short version: we collect as little as possible and delete it if you ask." />
+  <meta property="og:url" content="https://gather.place/privacy" />
+  <meta name="twitter:title" content="Privacy — Gather" />
+  <meta name="twitter:description" content="How Gather handles your data. Short version: we collect as little as possible and delete it if you ask." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="assets/tailwind-browser.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-parchment: #f5f2ec; --color-midnight: #0f0e0c; --color-amber: #c8a96e;
+      --color-cognac: #8a6e3e; --color-stone: #7a7670; --color-dust: #d8d2c8;
+      --font-serif: "Cormorant Garamond", Georgia, serif; --font-sans: "DM Sans", system-ui, sans-serif;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    html, body { background: #f5f2ec; color: #0f0e0c; }
+    body { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+    .display { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; }
+    .eyebrow { font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; font-size: 11px; }
+    .hair { border-color: #d8d2c8; }
+    ::selection { background: #c8a96e; color: #0f0e0c; }
+    .cta, a.cta { display: inline-block; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.04em; padding: 16px 28px; font-size: 14px; border-radius: 2px; transition: background 300ms ease, color 300ms ease, transform 300ms ease; cursor: pointer; border: 0; }
+    .cta:hover { transform: translateY(-1px); }
+    .cta-amber { background: #c8a96e; color: #0f0e0c; } .cta-amber:hover { background: #b89659; }
+    .qlink { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .qlink::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; opacity: 0.6; transform-origin: left; transition: transform 400ms ease; }
+    .qlink:hover::after { transform: scaleX(0.6); }
+    ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: #f5f2ec; } ::-webkit-scrollbar-thumb { background: #d8d2c8; border-radius: 0; }
+    .nav-link:hover { color: #c8a96e !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* ---------- Privacy page body ---------- */
+    .privacy-body { max-width: 680px; margin: 0 auto; }
+    .privacy-body h2 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      color: #0f0e0c;
+      margin: 0 0 20px;
+    }
+    .privacy-body p {
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #2a2722;
+      margin: 0;
+    }
+    .privacy-body p + p { margin-top: 16px; }
+    .privacy-body a {
+      color: #8a6e3e;
+      border-bottom: 1px solid rgba(138,110,62,0.35);
+      transition: border-color 300ms ease;
+    }
+    .privacy-body a:hover { border-bottom-color: #8a6e3e; }
+    .privacy-num {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 15px;
+      color: #c8a96e;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .privacy-section { padding: 56px 0; border-top: 1px solid #d8d2c8; }
+    .privacy-section:first-of-type { border-top: 0; padding-top: 0; }
+
+    /* ---------- Local hero (parchment, no image) ---------- */
+    .p-hero {
+      background: #f5f2ec;
+      color: #0f0e0c;
+      padding-top: clamp(140px, 18vh, 180px);
+      padding-bottom: clamp(72px, 10vh, 112px);
+      padding-left: clamp(24px, 6vw, 64px);
+      padding-right: clamp(24px, 4vw, 64px);
+      border-bottom: 1px solid #e4ddcf;
+    }
+    .p-hero .tag {
+      color: #8a6e3e;
+      letter-spacing: 0.22em;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 500;
+      margin-bottom: 32px;
+    }
+    .p-hero h1 {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-weight: 300;
+      font-size: clamp(44px, 5.6vw, 80px);
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+      max-width: 18ch;
+      color: #0f0e0c;
+      text-wrap: balance;
+      margin: 0;
+    }
+    .p-hero .thesis {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(19px, 1.8vw, 24px);
+      line-height: 1.45;
+      max-width: 52ch;
+      color: #55514a;
+      margin-top: 32px;
+    }
+    .p-hero .hero-inner { max-width: 1400px; margin: 0 auto; }
+  </style>
+  <link rel="stylesheet" href="assets/motion.css?v=2" />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="env,react" src="assets/site-chrome.jsx"></script>
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+
+    /* Local parchment hero — shares the PageHero layout rhythm (tagline,
+       title, thesis) but renders on parchment with dark text. The shared
+       PageHero is designed for dark photographic backgrounds, so for a
+       text-only page like Privacy we swap in this lighter variant rather
+       than fight the component's styling. */
+    function PrivacyHero() {
+      return (
+        <header className="p-hero">
+          <div className="hero-inner">
+            <div className="tag">Privacy</div>
+            <h1>How we handle your data.</h1>
+            <p className="thesis">
+              Short version — we collect as little as possible, use it only for what we said we'd use it for, and delete it if you ask.
+            </p>
+          </div>
+        </header>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <SiteNav current="privacy.html" overHero={false} />
+          <PrivacyHero />
+
+          <section>
+            <div className="px-6 md:px-12 py-20 md:py-28">
+              <div className="privacy-body">
+
+                <div className="privacy-section">
+                  <span className="privacy-num">01</span>
+                  <h2>What we collect</h2>
+                  <p>
+                    When you join the waitlist, we collect your email address and the role you indicated — member, founder, teacher, or venue. When you refer someone, we collect the name or email you enter.
+                  </p>
+                  <p>
+                    When you visit this site, we collect basic analytics — page views, referring site, rough location by city — using a privacy-respecting analytics tool that does not use cookies or track you across sites. We do not use Google Analytics. We do not sell data. We do not share it with advertisers.
+                  </p>
+                </div>
+
+                <div className="privacy-section">
+                  <span className="privacy-num">02</span>
+                  <h2>Why we collect it</h2>
+                  <p>
+                    We collect your email so we can tell you when Gather launches in your city, and so we can invite you to early beta if you're a fit. We collect your role so we can send you the right invitation — a founder's email looks different from a member's email. That's it.
+                  </p>
+                </div>
+
+                <div className="privacy-section">
+                  <span className="privacy-num">03</span>
+                  <h2>How long we keep it</h2>
+                  <p>
+                    Until Gather launches in your city, plus a reasonable window after to onboard you. If Gather has not launched in your city within two years of your signup, we will delete your email and let you know.
+                  </p>
+                </div>
+
+                <div className="privacy-section">
+                  <span className="privacy-num">04</span>
+                  <h2>Your rights</h2>
+                  <p>
+                    You can ask us to show you what data we have about you, correct anything that's wrong, or delete it entirely — at any time, for any reason, no questions. Email <a href="mailto:hello@gather.place">hello@gather.place</a> and we'll handle it within 30 days.
+                  </p>
+                  <p>
+                    Under PIPEDA and Alberta's PIPA, you also have the right to file a complaint with the Privacy Commissioner of Canada or the Alberta Office of the Information and Privacy Commissioner.
+                  </p>
+                </div>
+
+                <div className="privacy-section">
+                  <span className="privacy-num">05</span>
+                  <h2>Who we share with</h2>
+                  <p>
+                    Our email storage runs on Supabase, hosted in North America. We send transactional email through a reputable provider. We do not share your data with any other third parties.
+                  </p>
+                </div>
+
+                <div className="privacy-section">
+                  <span className="privacy-num">06</span>
+                  <h2>Cookies</h2>
+                  <p>
+                    This site does not use cookies for tracking, advertising, or any non-essential purpose. If we add functionality in the future that requires cookies, we will ask first.
+                  </p>
+                </div>
+
+                <div className="privacy-section">
+                  <span className="privacy-num">07</span>
+                  <h2>Changes to this policy</h2>
+                  <p>
+                    If we change how we handle data, we'll update this page and the date below. If the changes affect people already on the waitlist, we'll email you.
+                  </p>
+                </div>
+
+                <div style={{borderTop: '1px solid #d8d2c8', marginTop: 56, paddingTop: 32}}>
+                  <p style={{fontFamily:'"DM Sans", sans-serif', fontSize: 13, lineHeight: 1.6, color: '#7a7670'}}>
+                    Last updated: April 21, 2026. Questions? <a href="mailto:hello@gather.place" style={{color:'#8a6e3e', borderBottom:'1px solid rgba(138,110,62,0.35)'}}>hello@gather.place</a>.
+                  </p>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
+          <SiteFooter />
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="assets/motion.js"></script>
+</body>
+</html>

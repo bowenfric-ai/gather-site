@@ -1,0 +1,1217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gather — Communities start here</title>
+  <meta name="description" content="A new kind of marketplace for the physical world. Gather turns spaces into community homes — connecting venues, founders, teachers, and the members looking for something real to join. Calgary, 2026." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta property="og:site_name" content="Gather" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gather — Communities start here." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:title" content="Gather — Communities start here" />
+  <meta property="og:description" content="A new kind of marketplace for the physical world. In a world of screens, we're building rooms." />
+  <meta property="og:url" content="https://gather.place/" />
+  <meta name="twitter:title" content="Gather — Communities start here" />
+  <meta name="twitter:description" content="A new kind of marketplace for the physical world. In a world of screens, we're building rooms." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2.39.0"></script>
+  <script>
+    // TODO: replace with real Supabase URL and publishable key before deployment
+    (function initSupabase() {
+      try {
+        const supabase = window.supabase.createClient(
+          'https://xsynbjxwzzlljinssfzd.supabase.co',
+          'sb_publishable_-jZpGyfAbiN79ZEo1AglPg_Al0-e9DI'
+        );
+        window.gatherSupabase = supabase;
+      } catch (err) {
+        // Before real credentials are wired, createClient rejects the placeholder
+        // URL. Install a stub so the forms can render and error cleanly instead
+        // of crashing the page. Replace placeholders above to activate real writes.
+        window.gatherSupabase = {
+          from() {
+            return {
+              async insert() {
+                return { error: new Error('Supabase not configured') };
+              },
+            };
+          },
+        };
+      }
+    })();
+  </script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            parchment: '#f5f2ec',
+            midnight: '#0f0e0c',
+            amber: '#c8a96e',
+            cognac: '#8a6e3e',
+            stone: '#7a7670',
+            dust: '#d8d2c8',
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    html, body { background: #f5f2ec; color: #0f0e0c; }
+    body { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+    .display { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; }
+    .eyebrow { font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; font-size: 11px; }
+    .hair { border-color: #d8d2c8; }
+    ::selection { background: #c8a96e; color: #0f0e0c; }
+    .nav-link { position: relative; }
+    .nav-link:hover { color: #c8a96e !important; }
+
+    /* Entrance animation */
+    @keyframes revealIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(20px); }
+    .reveal.in { animation: revealIn 600ms ease-out forwards; }
+
+    /* Quiet link underline */
+    .qlink { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .qlink::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; opacity: 0.6;
+      transform-origin: left; transition: transform 400ms ease;
+    }
+    .qlink:hover::after { transform: scaleX(0.6); }
+    .qlink .arrow { transition: transform 400ms ease; }
+    .qlink:hover .arrow { transform: translateX(4px); }
+
+    /* Placeholder photo texture */
+    .photo-placeholder {
+      background-color: #e4ddcf;
+      background-image:
+        repeating-linear-gradient(135deg, rgba(138,110,62,0.055) 0 1px, transparent 1px 14px);
+    }
+
+    /* Inputs */
+    .field {
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid #d8d2c8;
+      padding: 14px 2px;
+      font-family: "DM Sans", sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      color: #0f0e0c;
+      width: 100%;
+      outline: none;
+      transition: border-color 300ms ease;
+    }
+    .field::placeholder { color: #a39d93; }
+    .field:focus { border-color: #0f0e0c; }
+    select.field {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230f0e0c' stroke-width='1'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 28px;
+    }
+
+    button.cta {
+      font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.04em;
+      padding: 16px 28px; font-size: 14px;
+      border-radius: 2px; transition: background 300ms ease, color 300ms ease, transform 300ms ease;
+    }
+    button.cta:hover { transform: translateY(-1px); }
+    button.cta-amber { background: #c8a96e; color: #0f0e0c; }
+    button.cta-amber:hover { background: #b89659; }
+    button.cta-cognac { background: #8a6e3e; color: #f5f2ec; }
+    button.cta-cognac:hover { background: #76592f; }
+
+    /* soften scrollbar */
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #f5f2ec; }
+    ::-webkit-scrollbar-thumb { background: #d8d2c8; border-radius: 0; }
+  </style>
+  <link rel="stylesheet" href="assets/motion.css?v=4" />
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+
+    /* ---------- Brand mark ---------- */
+    function ConvergenceMark({ size = 10, gap = 6, dim = false, color: colorProp }) {
+      const color = colorProp || (dim ? '#8a6e3e' : '#c8a96e');
+      const s = size;
+      const triangleW = s * 2 + gap * 2;
+      const triangleH = s * 2 + gap;
+      return (
+        <span className="inline-block relative" style={{ width: triangleW, height: triangleH }}>
+          <span className="gather-dot gather-dot-1" style={{ position:'absolute', left: 0, bottom: 0, width: s, height: s, borderRadius: '50%', background: color }} />
+          <span className="gather-dot gather-dot-2" style={{ position:'absolute', right: 0, bottom: 0, width: s, height: s, borderRadius: '50%', background: color }} />
+          <span className="gather-dot gather-dot-3" style={{ position:'absolute', left: '50%', top: 0, transform:'translateX(-50%)', width: s, height: s, borderRadius: '50%', background: color }} />
+        </span>
+      );
+    }
+
+    function ConvergenceDivider({ background = '#f5f2ec' }) {
+      return (
+        <div
+          aria-hidden
+          className="w-full flex flex-col items-center"
+          style={{ background, paddingTop: 80, paddingBottom: 80, gap: 16 }}
+        >
+          <ConvergenceMark size={20} gap={10} color="#8a6e3e" />
+          <ConvergenceMark size={14} gap={7}  color="#c8a96e" />
+          <ConvergenceMark size={10} gap={5}  color="#d8d2c8" />
+        </div>
+      );
+    }
+
+    /* ---------- Living manifest band (communities + venues marquee) ---------- */
+    // Small inline convergence mark used as a separator between items.
+    function MarqueeSep() {
+      return (
+        <span className="gather-manifest-sep" aria-hidden="true">
+          <svg width="11" height="10" viewBox="0 0 11 10">
+            <circle cx="1.5" cy="8.5" r="1.5" fill="#c8a96e" />
+            <circle cx="9.5" cy="8.5" r="1.5" fill="#c8a96e" />
+            <circle cx="5.5" cy="1.5" r="1.5" fill="#c8a96e" />
+          </svg>
+        </span>
+      );
+    }
+
+    function MarqueeRow({ items, rowIndex }) {
+      // Render the items twice back-to-back so the translateX(-50%) loop
+      // is seamless. Each item is followed by a separator.
+      const renderRun = (runKey) => (
+        <React.Fragment key={runKey}>
+          {items.map((label, i) => (
+            <React.Fragment key={`${runKey}-${i}`}>
+              <span className="gather-manifest-item">{label}</span>
+              <MarqueeSep />
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      );
+
+      return (
+        <div className={`gather-manifest-row gather-manifest-row-${rowIndex}`}>
+          <div className="gather-manifest-track">
+            {renderRun('a')}
+            {renderRun('b')}
+          </div>
+        </div>
+      );
+    }
+
+    function LivingManifest() {
+      const communities = [
+        'Calgary AI Practitioners',
+        'Music Production Club',
+        'AI Tools Club',
+        'DJ Practice Nights',
+        'Sunday Dinner Club',
+        'Paint Night Club',
+        'Entrepreneurs Circle',
+        'Saturday Morning Run Club',
+        'Prompt Engineering Nights',
+        'Ableton Circle',
+        'Bridgeland Founders',
+        'Book Club',
+        'Mindful Yoga',
+        'Board Game Night',
+        'Vibe Coding Saturdays',
+        'Piano Lessons',
+        'French Conversation',
+        'Pottery Studio',
+        'Beatmakers Meetup',
+        'Fiction Writers Group',
+        'Chess Club',
+        'Watercolor Sundays',
+        'Cocktail Workshop',
+        'Photography Walks',
+        'Meditation Mornings',
+        'Jazz Nights',
+      ];
+      const venues = [
+        'Gargoyle House',
+        'Inglewood Event Loft',
+        'Kensington Studio',
+        'Mission Rooftop',
+        'Bridgeland Kitchen',
+        'Cliff Bungalow Garden',
+        'Eau Claire Loft',
+        'Hillhurst Bookshop',
+        'Riverside Terrace',
+        'Ramsay Warehouse',
+        'Beltline Atelier',
+        'Mount Royal Parlour',
+        'Sunnyside Cafe',
+        'West Hillhurst Loft',
+      ];
+      return (
+        <section
+          className="gather-manifest w-full"
+          data-screen-label="02 Living manifest"
+          aria-label="Sample of communities and venues on Gather"
+        >
+          <MarqueeRow items={communities} rowIndex={1} />
+          <MarqueeRow items={venues} rowIndex={2} />
+        </section>
+      );
+    }
+
+    function Wordmark({ size = 'base' }) {
+      const sizes = {
+        base: { font: '28px', gap: '14px', dot: 7, gapDot: 4 },
+        lg:   { font: '40px', gap: '18px', dot: 9, gapDot: 5 },
+        sm:   { font: '22px', gap: '12px', dot: 6, gapDot: 3 },
+      }[size];
+      return (
+        <span className="inline-flex items-center" style={{ gap: sizes.gap }}>
+          <ConvergenceMark size={sizes.dot} gap={sizes.gapDot} />
+          <span className="font-serif" style={{ fontSize: sizes.font, fontWeight: 400, letterSpacing: '-0.01em' }}>Gather</span>
+        </span>
+      );
+    }
+
+    /* ---------- Three-dot bullet ---------- */
+    function DotBullet() {
+      return (
+        <span className="inline-flex items-center flex-none mt-[10px]" style={{ gap: 3 }} aria-hidden>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#c8a96e' }} />
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#c8a96e' }} />
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#c8a96e' }} />
+        </span>
+      );
+    }
+
+    /* horizontal three-dot divider */
+    function DotDivider({ className = '' }) {
+      return (
+        <span className={`inline-flex items-center ${className}`} style={{ gap: 6 }} aria-hidden>
+          <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#c8a96e' }} />
+          <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#c8a96e' }} />
+          <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#c8a96e' }} />
+        </span>
+      );
+    }
+
+    /* ---------- Reveal on scroll ---------- */
+    function Reveal({ children, as: Tag = 'div', className = '', delay = 0, ...rest }) {
+      return <Tag className={className} {...rest}>{children}</Tag>;
+    }
+
+    /* ---------- Photograph ---------- */
+    function PhotoPlaceholder({ label = 'photograph — placeholder', aspect = '4/5', className = '', src, caption, objectPosition = 'center' }) {
+      if (src) {
+        return (
+          <figure className={`w-full ${className}`} style={{ margin: 0 }}>
+            <div
+              className="w-full overflow-hidden"
+              style={{ aspectRatio: aspect, borderRadius: 2, background: '#e4ddcf' }}
+            >
+              <img
+                src={src}
+                alt={caption || label}
+                loading="lazy"
+                className="w-full h-full block"
+                style={{ objectFit: 'cover', objectPosition, filter: 'saturate(0.92) contrast(0.98)' }}
+              />
+            </div>
+            {caption && (
+              <figcaption
+                className="italic mt-3"
+                style={{ color: '#7a7670', fontSize: 12, letterSpacing: '0.02em' }}
+              >
+                {caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      }
+      return (
+        <div
+          className={`photo-placeholder w-full flex items-end justify-start ${className}`}
+          style={{ aspectRatio: aspect, borderRadius: 2 }}
+        >
+          <span className="italic text-[13px] m-4" style={{ color: '#7a7670', fontFamily: '"DM Sans", sans-serif' }}>
+            {label}
+          </span>
+        </div>
+      );
+    }
+
+    /* ---------- Section scaffolding ---------- */
+    function Section({ id, children, className = '', label, style }) {
+      return (
+        <section id={id} data-screen-label={label} className={`w-full ${className}`} style={style}>
+          {children}
+        </section>
+      );
+    }
+
+    /* ---------- Built-for section block ---------- */
+    function BuiltFor({ eyebrow, title, paragraph, bullets, reverse = false, photoLabel, photoSrc, photoCaption, photoAspect, photoObjectPosition, learnMoreHref, learnMoreLabel }) {
+      return (
+        <div className="max-w-[1180px] mx-auto px-6 md:px-10">
+          <div className={`grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start`}>
+            <Reveal className={`md:col-span-6 ${reverse ? 'md:order-2' : ''}`}>
+              <PhotoPlaceholder label={photoLabel} src={photoSrc} caption={photoCaption} aspect={photoAspect || (reverse ? '5/6' : '4/5')} objectPosition={photoObjectPosition} />
+            </Reveal>
+            <Reveal className={`md:col-span-6 ${reverse ? 'md:order-1' : ''}`} delay={120}>
+              <div className="eyebrow text-amber">{eyebrow}</div>
+              <h3 className="display mt-6 text-midnight" style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}>
+                {title}
+              </h3>
+              <p className="mt-8 text-midnight/80 max-w-[46ch]" style={{ fontSize: 17, lineHeight: 1.7 }}>
+                {paragraph}
+              </p>
+              <ul className="mt-10 space-y-5 max-w-[52ch]">
+                {bullets.map((b, i) => (
+                  <li key={i} className="flex gap-4 items-start">
+                    <DotBullet />
+                    <span className="text-midnight/85" style={{ fontSize: 16, lineHeight: 1.6 }}>{b}</span>
+                  </li>
+                ))}
+              </ul>
+              {learnMoreHref && (
+                <a href={learnMoreHref} className="qlink mt-10 inline-flex" style={{ color: '#8a6e3e', fontSize: 15, letterSpacing: '0.02em', fontWeight: 500 }}>
+                  {learnMoreLabel || 'Learn more'} <span className="arrow">→</span>
+                </a>
+              )}
+            </Reveal>
+          </div>
+        </div>
+      );
+    }
+
+    /* ---------- Tabbed "Built for…" ---------- */
+    function BuiltForTabs({ tabs }) {
+      const [active, setActive] = useState(0);
+      const [visible, setVisible] = useState(0); // what's currently rendered
+      const [phase, setPhase] = useState('in');  // 'in' | 'out'
+
+      useEffect(() => {
+        if (active === visible) return;
+        setPhase('out');
+        const t = setTimeout(() => {
+          setVisible(active);
+          setPhase('in');
+        }, 250);
+        return () => clearTimeout(t);
+      }, [active, visible]);
+
+      const current = tabs[visible];
+
+      return (
+        <div className="max-w-[1180px] mx-auto px-6 md:px-10">
+          {/* Tab row */}
+          <div className="flex items-center justify-center gap-8 md:gap-14 flex-wrap" style={{ borderBottom: '1px solid #d8d2c8', paddingBottom: 0 }}>
+            {tabs.map((t, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={t.key}
+                  onClick={() => setActive(i)}
+                  className="gather-builtfor-tab"
+                  data-active={isActive ? 'true' : 'false'}
+                  style={{
+                    background: 'transparent',
+                    border: 0,
+                    padding: '16px 2px 14px',
+                    fontFamily: '"DM Sans", sans-serif',
+                    fontSize: 14,
+                    letterSpacing: '0.14em',
+                    textTransform: 'uppercase',
+                    fontWeight: 500,
+                    color: isActive ? '#8a6e3e' : '#7a7670',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    transition: 'color 250ms ease',
+                  }}
+                >
+                  {t.label}
+                  <span
+                    aria-hidden
+                    style={{
+                      position: 'absolute',
+                      left: 0, right: 0, bottom: -1,
+                      height: 2,
+                      background: '#8a6e3e',
+                      transform: isActive ? 'scaleX(1)' : 'scaleX(0)',
+                      transformOrigin: 'center',
+                      transition: 'transform 300ms ease',
+                    }}
+                  />
+                </button>
+              );
+            })}
+          </div>
+          <style>{`.gather-builtfor-tab[data-active="false"]:hover { color: #0f0e0c !important; }`}</style>
+
+          {/* Crossfading content */}
+          <div className="mt-14 md:mt-16" style={{
+            opacity: phase === 'in' ? 1 : 0,
+            transform: phase === 'in' ? 'translateY(0)' : 'translateY(6px)',
+            transition: 'opacity 250ms ease, transform 250ms ease',
+          }}>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-start">
+              <div className={`md:col-span-6 ${current.reverse ? 'md:order-2' : ''}`}>
+                <PhotoPlaceholder
+                  label={current.photoLabel}
+                  src={current.photoSrc}
+                  aspect={current.photoAspect || (current.reverse ? '5/6' : '4/5')}
+                  objectPosition={current.photoObjectPosition}
+                />
+              </div>
+              <div className={`md:col-span-6 ${current.reverse ? 'md:order-1' : ''}`}>
+                <div className="eyebrow text-amber">{current.eyebrow}</div>
+                <h3 className="display mt-6 text-midnight" style={{ fontSize: 'clamp(40px, 5vw, 64px)' }}>
+                  {current.title}
+                </h3>
+                <p className="mt-8 text-midnight/80 max-w-[46ch]" style={{ fontSize: 17, lineHeight: 1.7 }}>
+                  {current.paragraph}
+                </p>
+                <ul className="mt-10 space-y-5 max-w-[52ch]">
+                  {current.bullets.map((b, i) => (
+                    <li key={i} className="flex gap-4 items-start">
+                      <DotBullet />
+                      <span className="text-midnight/85" style={{ fontSize: 16, lineHeight: 1.6 }}>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                {current.learnMoreHref && (
+                  <a href={current.learnMoreHref} className="qlink mt-10 inline-flex" style={{ color: '#8a6e3e', fontSize: 15, letterSpacing: '0.02em', fontWeight: 500 }}>
+                    {current.learnMoreLabel || 'Learn more'} <span className="arrow">→</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ---------- Diagram: four-sided marketplace (animated) ---------- */
+    function FourSidedDiagram() {
+      const svgRef = useRef(null);
+      const [inView, setInView] = useState(false);
+
+      useEffect(() => {
+        const el = svgRef.current;
+        if (!el) return;
+        if (typeof IntersectionObserver === 'undefined') { setInView(true); return; }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setInView(true);
+              io.disconnect(); // one-shot
+            }
+          });
+        }, { threshold: 0.3 });
+        io.observe(el);
+        return () => io.disconnect();
+      }, []);
+
+      const nodes = [
+        { cx: 140, cy: 90,  label: 'Venues',              labelY: 72,  key: 'venues'   },
+        { cx: 580, cy: 90,  label: 'Community Founders',  labelY: 72,  key: 'founders' },
+        { cx: 140, cy: 330, label: 'Teachers',            labelY: 358, key: 'teachers' },
+        { cx: 580, cy: 330, label: 'Members',             labelY: 358, key: 'members'  },
+      ];
+
+      // Three particle sizes per corner.
+      const particleSizes = [2.5, 2, 1.5];
+
+      return (
+        <svg
+          ref={svgRef}
+          viewBox="0 0 720 420"
+          className={`gather-fsd w-full h-auto${inView ? ' in-view' : ''}`}
+          aria-label="Four-sided marketplace diagram"
+        >
+          {/* connecting lines — cognac 30%, 0.8px */}
+          <g>
+            <line className="fsd-line" x1="140" y1="90"  x2="360" y2="210" />
+            <line className="fsd-line" x1="580" y1="90"  x2="360" y2="210" />
+            <line className="fsd-line" x1="140" y1="330" x2="360" y2="210" />
+            <line className="fsd-line" x1="580" y1="330" x2="360" y2="210" />
+          </g>
+
+          {/* outer nodes + labels */}
+          {nodes.map((n, i) => (
+            <g key={n.key}>
+              <circle
+                className={`fsd-node fsd-node-${i}`}
+                cx={n.cx} cy={n.cy} r="5.5"
+                fill="#c8a96e"
+              />
+              <text
+                className={`fsd-label fsd-label-${i}`}
+                x={n.cx}
+                y={n.labelY}
+                textAnchor="middle"
+                fontFamily="DM Sans, sans-serif"
+                fontSize="12"
+                fontWeight="400"
+                fill="#0f0e0c"
+                letterSpacing="0.04em"
+              >
+                {n.label}
+              </text>
+            </g>
+          ))}
+
+          {/* central static ring — midnight 0.8px */}
+          <circle
+            className="fsd-ring-static"
+            cx="360" cy="210" r="74"
+            fill="none"
+            stroke="#0f0e0c"
+            strokeWidth="0.8"
+          />
+
+          {/* perpetual pulse ring — wrapped in <g> so transform-origin is reliable.
+              The ring itself is drawn at (0,0) with r=74; the group's
+              transform animates translate+scale together. */}
+          <g className="fsd-pulse-group">
+            <circle
+              cx="0" cy="0" r="74"
+              fill="none"
+              stroke="#c8a96e"
+              strokeWidth="1.5"
+            />
+          </g>
+
+          {/* convergence mark — three amber dots */}
+          <circle className="fsd-conv-dot fsd-conv-dot-0" cx="348" cy="197" r="3.5" fill="#c8a96e" />
+          <circle className="fsd-conv-dot fsd-conv-dot-1" cx="372" cy="197" r="3.5" fill="#c8a96e" />
+          <circle className="fsd-conv-dot fsd-conv-dot-2" cx="360" cy="184" r="3.5" fill="#c8a96e" />
+
+          {/* wordmark */}
+          <text
+            className="fsd-wordmark"
+            x="360" y="232"
+            textAnchor="middle"
+            fontFamily="Cormorant Garamond, serif"
+            fontSize="29"
+            fontWeight="400"
+            fill="#0f0e0c"
+            letterSpacing="-0.01em"
+          >
+            Gather
+          </text>
+
+          {/* perpetual particle flow — 3 per corner, 12 total.
+              Each <circle> sits at (0,0) and is moved entirely by the
+              corresponding @keyframes. */}
+          {nodes.map((n) => (
+            particleSizes.map((r, pi) => (
+              <circle
+                key={`${n.key}-${pi}`}
+                className={`fsd-particle fsd-p-${n.key}-${pi}`}
+                cx="0" cy="0" r={r}
+              />
+            ))
+          ))}
+        </svg>
+      );
+    }
+
+    /* ---------- Roadmap strip ---------- */
+    function Roadmap() {
+      const beats = [
+        'Brand and platform design complete',
+        'Anchor venues committed in Calgary',
+        'Private beta — summer 2026',
+        'Public Calgary launch — late 2026',
+      ];
+      return (
+        <div className="max-w-[1180px] mx-auto px-6 md:px-10">
+          <Reveal>
+            <h2 className="display text-midnight" style={{ fontSize: 'clamp(40px, 5.5vw, 72px)' }}>
+              What's built, what's <em className="italic" style={{color:'#8a6e3e'}}>next</em>.
+            </h2>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="mt-16 grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-6 relative">
+              {/* horizontal connector line (desktop only) */}
+              <div className="hidden md:block absolute left-0 right-0 top-[7px] h-px" style={{ background: '#d8d2c8' }} />
+              {beats.map((b, i) => (
+                <div key={i} className="relative">
+                  <div className="flex md:block items-center gap-4">
+                    <div className="flex-none md:mb-5">
+                      <DotDivider />
+                    </div>
+                    <div className="hidden md:block" />
+                  </div>
+                  <div className="eyebrow text-cognac mt-1 md:mt-0">0{i + 1}</div>
+                  <p className="mt-3 font-serif text-midnight" style={{ fontSize: 22, lineHeight: 1.3 }}>
+                    {b}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      );
+    }
+
+    /* ---------- Waitlist + Referral ---------- */
+    function Waitlist() {
+      const [waitSubmitted, setWaitSubmitted] = useState(false);
+      const [refSubmitted, setRefSubmitted] = useState(false);
+      const [email, setEmail] = useState('');
+      const [role, setRole] = useState('');
+      const [ref, setRef] = useState('');
+      const [waitLoading, setWaitLoading] = useState(false);
+      const [waitError, setWaitError] = useState('');
+      const [refLoading, setRefLoading] = useState(false);
+      const [refError, setRefError] = useState('');
+
+      const genericError = "Something went wrong. Please try again or email us at hello@gather.place.";
+
+      async function submitWait(e) {
+        e.preventDefault();
+        if (!email || !email.includes('@')) return;
+        if (!role) return;
+        setWaitError('');
+        setWaitLoading(true);
+        try {
+          const { error } = await window.gatherSupabase
+            .from('waitlist')
+            .insert({ email, role });
+          if (error) {
+            setWaitError(genericError);
+          } else {
+            setWaitSubmitted(true);
+          }
+        } catch (err) {
+          setWaitError(genericError);
+        } finally {
+          setWaitLoading(false);
+        }
+      }
+
+      async function submitRef(e) {
+        e.preventDefault();
+        if (!ref) return;
+        setRefError('');
+        setRefLoading(true);
+        try {
+          const { error } = await window.gatherSupabase
+            .from('referrals')
+            .insert({ referral: ref });
+          if (error) {
+            setRefError(genericError);
+          } else {
+            setRefSubmitted(true);
+          }
+        } catch (err) {
+          setRefError(genericError);
+        } finally {
+          setRefLoading(false);
+        }
+      }
+
+      return (
+        <div className="max-w-[980px] mx-auto px-6 md:px-10">
+          <div className="border hair" style={{ borderRadius: 2, padding: 'clamp(32px, 5vw, 72px)', background: '#f5f2ec' }}>
+            {/* Block A */}
+            <Reveal>
+              <div className="flex items-center gap-3">
+                <DotDivider />
+                <span className="eyebrow text-cognac">Waitlist</span>
+              </div>
+              <h2 className="display mt-6 text-midnight" style={{ fontSize: 'clamp(38px, 5vw, 60px)' }}>
+                Be <em className="italic" style={{color:'#8a6e3e'}}>first</em> when Gather opens in Calgary.
+              </h2>
+            </Reveal>
+
+            <Reveal delay={120}>
+              {!waitSubmitted ? (
+                <form onSubmit={submitWait} className="mt-12 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-end">
+                  <div className="md:col-span-5">
+                    <label className="eyebrow text-stone">Email</label>
+                    <input
+                      type="email" required
+                      className="field mt-3"
+                      placeholder="you@domain.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div className="md:col-span-4">
+                    <label className="eyebrow text-stone">I'm interested as a…</label>
+                    <select
+                      required
+                      className="field mt-3"
+                      value={role}
+                      onChange={(e) => setRole(e.target.value)}
+                    >
+                      <option value="" disabled>Choose one</option>
+                      <option value="member">Member</option>
+                      <option value="founder">Community Founder</option>
+                      <option value="teacher">Teacher or Practitioner</option>
+                      <option value="venue">Venue Owner</option>
+                    </select>
+                  </div>
+                  <div className="md:col-span-3 md:justify-self-end w-full">
+                    <button
+                      type="submit"
+                      className="cta cta-amber w-full md:w-auto"
+                      disabled={waitLoading}
+                      style={waitLoading ? { opacity: 0.6, cursor: 'not-allowed' } : undefined}
+                    >
+                      {waitLoading ? 'Joining…' : 'Join the waitlist'}
+                    </button>
+                  </div>
+                  {waitError ? (
+                    <div className="md:col-span-12"
+                         style={{ fontFamily: '"DM Sans", sans-serif', fontSize: 14, color: '#a32d2d', marginTop: 16 }}
+                         role="alert" aria-live="polite">
+                      {waitError}
+                    </div>
+                  ) : null}
+                </form>
+              ) : (
+                <div className="mt-12 py-8 flex items-center gap-4">
+                  <DotDivider />
+                  <p className="font-serif text-midnight" style={{ fontSize: 24 }}>
+                    Thanks — we'll be in touch.
+                  </p>
+                </div>
+              )}
+            </Reveal>
+
+            {/* divider */}
+            <div className="my-14 md:my-20 h-px" style={{ background: '#d8d2c8' }} />
+
+            {/* Block B */}
+            <Reveal>
+              <div className="flex items-center gap-3">
+                <DotDivider />
+                <span className="eyebrow text-cognac">Referral</span>
+              </div>
+              <h3 className="display mt-6 text-midnight" style={{ fontSize: 'clamp(28px, 3.4vw, 40px)' }}>
+                Know someone who should be <em className="italic" style={{color:'#8a6e3e'}}>part</em> of this?
+              </h3>
+              <p className="mt-5 text-midnight/75 max-w-[60ch]" style={{ fontSize: 16, lineHeight: 1.7 }}>
+                A venue with dead hours. A friend who should be running a community. A teacher who deserves a bigger calendar. Send them our way.
+              </p>
+            </Reveal>
+
+            <Reveal delay={120}>
+              {!refSubmitted ? (
+                <form onSubmit={submitRef} className="mt-10 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-end">
+                  <div className="md:col-span-8">
+                    <label className="eyebrow text-stone">Their email or name</label>
+                    <input
+                      type="text" required
+                      className="field mt-3"
+                      placeholder="name or email"
+                      value={ref}
+                      onChange={(e) => setRef(e.target.value)}
+                    />
+                  </div>
+                  <div className="md:col-span-4 md:justify-self-end w-full">
+                    <button
+                      type="submit"
+                      className="cta cta-cognac w-full md:w-auto"
+                      disabled={refLoading}
+                      style={refLoading ? { opacity: 0.6, cursor: 'not-allowed' } : undefined}
+                    >
+                      {refLoading ? 'Sending…' : 'Send a referral'}
+                    </button>
+                  </div>
+                  {refError ? (
+                    <div className="md:col-span-12"
+                         style={{ fontFamily: '"DM Sans", sans-serif', fontSize: 14, color: '#a32d2d', marginTop: 16 }}
+                         role="alert" aria-live="polite">
+                      {refError}
+                    </div>
+                  ) : null}
+                </form>
+              ) : (
+                <div className="mt-10 py-6 flex items-center gap-4">
+                  <DotDivider />
+                  <p className="font-serif text-midnight" style={{ fontSize: 22 }}>
+                    Thanks — we'll be in touch.
+                  </p>
+                </div>
+              )}
+            </Reveal>
+          </div>
+        </div>
+      );
+    }
+
+    /* ================================================================ */
+    function App() {
+      return (
+        <main className="bg-parchment text-midnight">
+
+          {/* 1 — HERO */}
+          <Section id="hero" label="01 Hero" className="relative flex flex-col overflow-hidden" style={{
+            minHeight: '75vh',
+            backgroundColor: '#f5f2ec',
+          }}>
+            <style>{`@media (min-width: 768px) { #hero { min-height: 85vh !important; } } #hero.flex { display: flex !important; } #hero { min-height: 75vh; }`}</style>
+
+            {/* Nav row — midnight text on parchment */}
+            <header className="relative pt-8 md:pt-10 px-6 md:px-12 flex items-center justify-between gap-6" style={{zIndex:2}}>
+              <a href="Gather Homepage.html" className="inline-flex items-center" style={{gap:'14px'}}>
+                <ConvergenceMark size={7} gap={4} />
+                <span className="font-serif" style={{fontSize:'28px', fontWeight:400, letterSpacing:'-0.01em', color:'#0f0e0c'}}>Gather</span>
+              </a>
+              <nav className="hidden md:flex items-center gap-8">
+                {[
+                  { href: 'members.html', label: 'Members' },
+                  { href: 'founders.html', label: 'Founders' },
+                  { href: 'teachers.html', label: 'Teachers' },
+                  { href: 'venues.html', label: 'Venues' },
+                  { href: 'about.html', label: 'About' },
+                  { href: 'contact.html', label: 'Contact' },
+                ].map(l => (
+                  <a key={l.href} href={l.href} className="nav-link"
+                    style={{ fontSize: 13, letterSpacing: '0.02em', color: '#0f0e0c', fontWeight: 300, transition: 'color 300ms ease' }}>
+                    {l.label}
+                  </a>
+                ))}
+              </nav>
+              <a href="#waitlist" className="hidden md:inline-block cta cta-amber" style={{ padding: '10px 20px', fontSize: 13, whiteSpace: 'nowrap' }}>Join waitlist</a>
+            </header>
+
+            {/* Centered text block */}
+            <div className="flex-1 relative flex items-center justify-center" style={{zIndex:2}}>
+              <div style={{
+                paddingLeft: 'clamp(32px, 6vw, 64px)',
+                paddingRight: 'clamp(24px, 4vw, 64px)',
+                paddingTop: 'clamp(40px, 6vw, 80px)',
+                paddingBottom: 'clamp(80px, 10vw, 140px)',
+                width: '100%',
+                textAlign: 'center',
+              }}>
+                <Reveal>
+                  <div className="eyebrow inline-flex items-center gap-3" style={{color:'#8a6e3e', letterSpacing:'0.22em', fontSize:'11px'}}>
+                    <span style={{ width: 28, height: 1, background: '#8a6e3e', display:'inline-block' }} />
+                    A new kind of marketplace — Calgary, 2026
+                    <span style={{ width: 28, height: 1, background: '#8a6e3e', display:'inline-block' }} />
+                  </div>
+                </Reveal>
+
+                <Reveal delay={150}>
+                  <h1
+                    className="font-serif mt-10 mx-auto"
+                    style={{ fontSize: 'clamp(56px, 10vw, 140px)', lineHeight: 0.94, maxWidth: '14ch', color:'#0f0e0c', fontWeight:300, letterSpacing:'-0.02em' }}
+                  >
+                    Communities <em className="italic" style={{ color: '#8a6e3e', fontWeight: 300 }}>start</em> here.
+                  </h1>
+                </Reveal>
+
+                <Reveal delay={320}>
+                  <p
+                    className="font-serif italic mt-10 mx-auto"
+                    style={{ fontSize: 'clamp(20px, 2vw, 26px)', maxWidth: '50ch', lineHeight: 1.45, color:'#0f0e0c', fontWeight:300 }}
+                  >
+                    In a world of screens, we're building rooms.
+                  </p>
+                </Reveal>
+
+                <Reveal delay={460}>
+                  <a
+                    href="#waitlist"
+                    className="qlink mt-10 inline-flex"
+                    style={{ color: '#0f0e0c', fontSize: 16, letterSpacing: '0.02em' }}
+                  >
+                    Be first to know
+                    <span className="arrow" style={{ color: '#8a6e3e' }}>→</span>
+                  </a>
+                </Reveal>
+              </div>
+            </div>
+
+            {/* Editorial masthead framing — bottom edge */}
+            <div
+              className="absolute flex items-center justify-between px-6 md:px-12"
+              style={{
+                left: 0,
+                right: 0,
+                bottom: 'clamp(20px, 3vw, 32px)',
+                zIndex: 2,
+                pointerEvents: 'none',
+              }}
+              aria-hidden
+            >
+              <span className="eyebrow" style={{ color: '#7a7670', fontFamily: '"DM Sans", sans-serif', fontWeight: 500, fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+                Est. 2026
+              </span>
+              <span className="eyebrow hidden md:inline-flex items-center gap-2" style={{ color: '#7a7670', fontFamily: '"DM Sans", sans-serif', fontWeight: 500, fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+                Scroll <span aria-hidden="true">↓</span>
+              </span>
+              <span className="eyebrow" style={{ color: '#7a7670', fontFamily: '"DM Sans", sans-serif', fontWeight: 500, fontSize: '11px', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+                Calgary, AB
+              </span>
+            </div>
+          </Section>
+
+          {/* 2 — LIVING MANIFEST (communities + venues marquee) */}
+          <LivingManifest />
+
+          <ConvergenceDivider background="#f5f2ec" />
+
+          {/* 3 — THE WORLD WE'RE IN */}
+          <Section id="world" label="03 The world we're in" className="py-[60px] md:py-[90px] relative overflow-hidden" style={{background:'#e8e2d4'}}>
+            <div aria-hidden style={{position:'absolute', inset:0, backgroundImage:'url("assets/contact-dinner-table.png")', backgroundSize:'cover', backgroundPosition:'center', opacity:0.18, pointerEvents:'none', zIndex:0}} />
+            <div style={{position:'relative', zIndex:1}}>
+            <div className="max-w-[1280px] mx-auto px-6 md:px-12">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-20 items-start">
+                <Reveal className="md:col-span-6">
+                  <div className="eyebrow text-cognac flex items-center gap-3">
+                    <span style={{ width: 24, height: 1, background: '#8a6e3e', display:'inline-block' }} />
+                    01 — Context
+                  </div>
+                  <h2 className="display mt-8 text-midnight" style={{ fontSize: 'clamp(44px, 6vw, 84px)' }}>
+                    The <em className="italic" style={{color:'#8a6e3e'}}>world</em> <br/>we're in.
+                  </h2>
+                </Reveal>
+
+                <Reveal className="md:col-span-6" delay={120}>
+                  <p className="text-midnight/85 first-letter:font-serif first-letter:text-[64px] first-letter:float-left first-letter:leading-[0.9] first-letter:mr-3 first-letter:mt-1 first-letter:text-cognac"
+                     style={{ fontSize: 18, lineHeight: 1.75 }}>
+                    As AI reshapes how people work — displacing jobs and pulling people further from each other — the incidental human connection that once came naturally is disappearing. The hallway conversation. The team lunch. The shared struggle.
+                  </p>
+                  <p className="mt-6 text-midnight/85" style={{ fontSize: 18, lineHeight: 1.75 }}>
+                    Gather exists to reverse that. We connect people to spaces, communities, and classes that bring them back to each other in real, inspiring places — because human connection doesn't happen on a screen.
+                  </p>
+                </Reveal>
+              </div>
+
+              <Reveal delay={180}>
+                <div className="mt-12 md:mt-16">
+                  <PhotoPlaceholder
+                    src="assets/world-long-table.png"
+                    aspect="16/7"
+                  />
+                </div>
+              </Reveal>
+            </div>
+            </div>
+          </Section>
+
+          {/* 3 — WHAT GATHER IS */}
+          <Section id="what" label="04 What Gather is" className="py-[60px] md:py-[90px]" style={{background:'#efebe2'}}>
+            <div className="max-w-[880px] mx-auto px-6 md:px-12 text-center">
+              <Reveal>
+                <div className="inline-flex items-center gap-3 eyebrow text-cognac">
+                  <DotDivider />
+                  02 — The idea
+                  <DotDivider />
+                </div>
+                <h2 className="display mt-10 text-midnight" style={{ fontSize: 'clamp(44px, 6vw, 84px)' }}>
+                  What <em className="italic" style={{color:'#8a6e3e'}}>Gather</em> is.
+                </h2>
+                <p className="mt-10 mx-auto text-midnight/85" style={{ fontSize: 20, lineHeight: 1.7, maxWidth: '58ch' }}>
+                  A four-sided marketplace that turns physical spaces into community homes. We connect the people who own spaces, the people who build communities in them, the teachers who fill them with classes, and the members looking for something real to join.
+                </p>
+              </Reveal>
+            </div>
+
+            <Reveal delay={160}>
+              <div className="max-w-[880px] mx-auto px-6 md:px-12 mt-12">
+                <FourSidedDiagram />
+              </div>
+            </Reveal>
+          </Section>
+
+          <ConvergenceDivider background="#f5f2ec" />
+
+          {/* 4 — BUILT FOR */}
+          <Section id="built-for" label="05 Built for" className="py-[60px] md:py-[80px]">
+            <div className="max-w-[1180px] mx-auto px-6 md:px-10 mb-10 md:mb-14">
+              <Reveal>
+                <div className="eyebrow text-cognac flex items-center gap-3">
+                  <span style={{ width: 24, height: 1, background: '#8a6e3e', display: 'inline-block' }} />
+                  03 — Built for
+                </div>
+                <h2 className="display mt-8 text-midnight" style={{ fontSize: 'clamp(40px, 5.5vw, 72px)', maxWidth: '18ch' }}>
+                  Built for everyone who wants to <em className="italic" style={{ color: '#8a6e3e' }}>host</em>.
+                </h2>
+              </Reveal>
+            </div>
+            <BuiltForTabs
+              tabs={[
+                {
+                  key: 'members',
+                  label: 'Members',
+                  reverse: false,
+                  eyebrow: 'For Members',
+                  title: <>Join something <em className="italic" style={{ color: '#8a6e3e' }}>real</em>.</>,
+                  paragraph: "You want more of your life to happen in rooms, not feeds. A standing Tuesday night for something — a dinner club, a run group, a painting class — the kind of thing that puts the same people in a room with you every week until they stop being strangers. Gather is one place to find your people in your city, and signal interest in the communities that don't exist yet.",
+                  bullets: [
+                    'Real communities and classes near you, browsable by interest and neighbourhood',
+                    'Join, book, and pay in one place',
+                    'Calendar invites, reminders, receipts — handled automatically',
+                    "Signal interest in communities that don't exist yet, and be first when they launch",
+                  ],
+                  photoLabel: 'photograph — neighbours mid-conversation, morning light',
+                  photoSrc: 'https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1400&q=80',
+                  learnMoreHref: 'members.html',
+                  learnMoreLabel: 'Learn more',
+                },
+                {
+                  key: 'founders',
+                  label: 'Founders',
+                  reverse: true,
+                  eyebrow: 'For Community Founders',
+                  title: <>Launch your <em className="italic" style={{ color: '#8a6e3e' }}>community</em>.</>,
+                  paragraph: "You have the idea — the dinner club, the entrepreneur circle, the run group. What you don't have is six months to figure out branding, landing pages, ad copy, payments, and a venue. Our AI launch engine turns an idea into a live, bookable community in a single day. You bring the vision. We build the business around it.",
+                  bullets: [
+                    'Full launch package in a single session — name, logo, landing page, pricing, ad copy, 90-day plan',
+                    'Ad campaigns run to the right people in your city',
+                    'Matched with the right Gather venue — no cold-calling spaces',
+                    'One dashboard for members, roster, waitlists, and revenue',
+                  ],
+                  photoLabel: 'photograph — founder leaning in at the head of the table, class in session',
+                  photoSrc: 'assets/founders-ai-tools-club.png',
+                  photoObjectPosition: 'right center',
+                  learnMoreHref: 'founders.html',
+                  learnMoreLabel: 'Learn more',
+                },
+                {
+                  key: 'teachers',
+                  label: 'Teachers',
+                  reverse: false,
+                  eyebrow: 'For Teachers & Practitioners',
+                  title: <>Teach what you <em className="italic" style={{ color: '#8a6e3e' }}>love</em>.</>,
+                  paragraph: `You're good at your craft. What you didn't sign up for was running a small business around it — the branding, the landing page, the ads, the booking system. Our AI launch engine closes the gap between "I could teach this" and "I have a full calendar of students" in an afternoon.`,
+                  bullets: [
+                    'Full brand package generated in minutes — name, logo, landing page, ad copy, pricing',
+                    'Ready-to-run social and ad campaigns targeted to the right students',
+                    'Bookings, payments, reminders, receipts, waitlists — all handled',
+                    "Matched with Gather venues when you don't have a space of your own",
+                  ],
+                  photoLabel: 'photograph — piano lesson, teacher and student',
+                  photoSrc: 'assets/teachers-piano.png',
+                  photoObjectPosition: 'center',
+                  learnMoreHref: 'teachers.html',
+                  learnMoreLabel: 'Learn more',
+                },
+                {
+                  key: 'venues',
+                  label: 'Venues',
+                  reverse: true,
+                  eyebrow: 'For Venues',
+                  title: <>Unlock your <em className="italic" style={{ color: '#8a6e3e' }}>venue</em>.</>,
+                  paragraph: "Your space has dead hours — the rooftop on a Tuesday afternoon, the lounge on a Sunday morning, the event room between bookings. Gather turns them into recurring revenue without the operational layer. You don't chase bookings. You don't manage members. You open the doors, and the room fills itself.",
+                  bullets: [
+                    'Calendar sync with Airbnb, VRBO, and Google Calendar — no double-bookings',
+                    'Pre-vetted communities and classes fill your calendar on repeat',
+                    'Every booking, payment, reminder, and waitlist handled end-to-end',
+                    'Automatic Stripe payouts after every session — zero reconciliation',
+                  ],
+                  photoLabel: 'photograph — modern living room, ready to host',
+                  photoSrc: 'assets/venues-living-room.jpg',
+                  photoObjectPosition: 'center',
+                  learnMoreHref: 'venues.html',
+                  learnMoreLabel: 'Learn more',
+                },
+              ]}
+            />
+          </Section>
+
+          <ConvergenceDivider background="#f5f2ec" />
+
+          {/* 5 — ROADMAP */}
+          <Section id="roadmap" label="06 Roadmap" className="py-[60px] md:py-[90px]">
+            <Roadmap />
+          </Section>
+
+          {/* 5.5 — STATEMENT */}
+          <section data-screen-label="06.5 Statement" style={{background:'#0f0e0c', color:'#f5f2ec', width:'100vw', marginLeft:'calc(50% - 50vw)', height:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
+            <p className="font-serif italic" style={{fontFamily:'"Cormorant Garamond", Georgia, serif', fontStyle:'italic', fontWeight:300, fontSize:'clamp(44px, 6vw, 88px)', lineHeight:1.1, maxWidth:'22ch', textAlign:'center', margin:0, padding:'0 24px', color:'#f5f2ec', letterSpacing:'-0.01em'}}>
+              In a world of screens, we're building <em style={{fontStyle:'normal', color:'#c8a96e'}}>rooms</em>.
+            </p>
+            <div style={{marginTop:48, display:'inline-flex', alignItems:'center', gap:6}}>
+              <span style={{width:5,height:5,borderRadius:'50%',background:'#c8a96e',display:'inline-block'}} />
+              <span style={{width:5,height:5,borderRadius:'50%',background:'#c8a96e',display:'inline-block'}} />
+              <span style={{width:5,height:5,borderRadius:'50%',background:'#c8a96e',display:'inline-block'}} />
+            </div>
+          </section>
+
+          <ConvergenceDivider background="#efebe2" />
+
+          {/* 6 — WAITLIST */}
+          <Section id="waitlist" label="07 Waitlist" className="py-[40px] md:py-[60px]" style={{background:'#efebe2'}}>
+            <Waitlist />
+          </Section>
+
+          {/* 7 — FOOTER */}
+          <Section id="footer" label="08 Footer" style={{background:'#0f0e0c'}}>
+            <div
+              className="gather-footer mx-auto flex flex-col items-center text-center"
+              style={{
+                maxWidth: '1400px',
+                paddingTop: '128px',
+                paddingBottom: '80px',
+                paddingLeft: 'clamp(24px, 4vw, 48px)',
+                paddingRight: 'clamp(24px, 4vw, 48px)',
+                color: '#f5f2ec',
+              }}
+            >
+              <ConvergenceMark size={10} gap={14} />
+              <div className="font-serif" style={{fontSize:'48px', fontWeight:300, letterSpacing:'-0.02em', color:'#f5f2ec', marginTop:'48px', lineHeight:1}}>Gather</div>
+              <p className="font-serif italic" style={{fontSize:'18px', fontWeight:300, color:'rgba(245, 242, 236, 0.7)', marginTop:'16px'}}>Communities start here.</p>
+              <span aria-hidden style={{display:'block', width:'120px', height:'1px', background:'#c8a96e', opacity:0.2, marginTop:'80px'}} />
+              <div className="gather-footer-grid" style={{marginTop:'48px', width:'100%'}}>
+                <div className="gather-footer-col">
+                  <a href="members.html" style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(245, 242, 236, 0.6)', textDecoration:'none', transition:'color 300ms ease'}}>For members</a>
+                  <a href="founders.html" style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(245, 242, 236, 0.6)', textDecoration:'none', transition:'color 300ms ease'}}>For founders</a>
+                  <a href="teachers.html" style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(245, 242, 236, 0.6)', textDecoration:'none', transition:'color 300ms ease'}}>For teachers</a>
+                  <a href="venues.html" style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(245, 242, 236, 0.6)', textDecoration:'none', transition:'color 300ms ease'}}>For venues</a>
+                </div>
+                <div className="gather-footer-col">
+                  <a href="about.html" style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(245, 242, 236, 0.6)', textDecoration:'none', transition:'color 300ms ease'}}>About</a>
+                  <a href="contact.html" style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase', color:'rgba(245, 242, 236, 0.6)', textDecoration:'none', transition:'color 300ms ease'}}>Contact</a>
+                </div>
+                <div className="gather-footer-col">
+                  <a href="#waitlist" style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'12px', letterSpacing:'0.12em', textTransform:'uppercase', color:'#c8a96e', textDecoration:'none', transition:'color 300ms ease'}}>Join waitlist</a>
+                </div>
+              </div>
+              <div className="gather-footer-meta" style={{marginTop:'64px', width:'100%', display:'flex', justifyContent:'space-between', alignItems:'baseline'}}>
+                <span style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontSize:'11px', color:'rgba(245, 242, 236, 0.4)'}}>© 2026 Gather Community Inc.</span>
+                <span style={{fontFamily:'"DM Sans", sans-serif', fontWeight:300, fontStyle:'italic', fontSize:'11px', color:'rgba(245, 242, 236, 0.4)'}}>Calgary, Alberta</span>
+              </div>
+            </div>
+          </Section>
+        </main>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+  <script src="assets/motion.js"></script>
+</body>
+</html>

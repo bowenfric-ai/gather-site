@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Venues — Gather</title>
+  <meta name="description" content="Turn your venue's dead hours into recurring revenue. Gather fills your empty calendar with pre-vetted communities and classes — end-to-end bookings, payments, and payouts. You open the doors. The room fills itself." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta property="og:site_name" content="Gather" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gather — Communities start here." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:title" content="Unlock your venue — Gather" />
+  <meta property="og:description" content="Dead hours become recurring revenue. No cold calls, no operational layer — just a room that works harder." />
+  <meta property="og:url" content="https://gather.place/venues" />
+  <meta name="twitter:title" content="Unlock your venue — Gather" />
+  <meta name="twitter:description" content="Dead hours become recurring revenue. No cold calls, no operational layer — just a room that works harder." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="assets/tailwind-browser.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-parchment: #f5f2ec; --color-midnight: #0f0e0c; --color-amber: #c8a96e;
+      --color-cognac: #8a6e3e; --color-stone: #7a7670; --color-dust: #d8d2c8;
+      --font-serif: "Cormorant Garamond", Georgia, serif; --font-sans: "DM Sans", system-ui, sans-serif;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    html, body { background: #f5f2ec; color: #0f0e0c; }
+    body { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+    .display { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; }
+    .eyebrow { font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; font-size: 11px; }
+    .hair { border-color: #d8d2c8; }
+    ::selection { background: #c8a96e; color: #0f0e0c; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease-out, transform 700ms ease-out; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+        .dropcap::first-letter { float: left; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; color: #8a6e3e; font-size: 5.4em; line-height: 0.85; margin-right: 12px; margin-top: 8px; padding-top: 4px; }
+    .photo-placeholder { background-color: #e4ddcf; background-image: repeating-linear-gradient(135deg, rgba(138,110,62,0.055) 0 1px, transparent 1px 14px); }
+    .field { background: transparent; border: 0; border-bottom: 1px solid #d8d2c8; padding: 14px 2px; font-family: "DM Sans", sans-serif; font-weight: 300; font-size: 16px; color: #0f0e0c; width: 100%; outline: none; transition: border-color 300ms ease; }
+    .field::placeholder { color: #a39d93; } .field:focus { border-color: #0f0e0c; }
+    select.field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230f0e0c' stroke-width='1'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 28px; }
+    textarea.field { min-height: 140px; padding: 14px; border: 1px solid #d8d2c8; border-radius: 2px; }
+    .cta, a.cta { display: inline-block; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.04em; padding: 16px 28px; font-size: 14px; border-radius: 2px; transition: background 300ms ease, color 300ms ease, transform 300ms ease; cursor: pointer; border: 0; }
+    .cta:hover { transform: translateY(-1px); }
+    .cta-amber { background: #c8a96e; color: #0f0e0c; } .cta-amber:hover { background: #b89659; }
+    .cta-cognac { background: #8a6e3e; color: #f5f2ec; } .cta-cognac:hover { background: #76592f; }
+    .qlink { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .qlink::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; opacity: 0.6; transform-origin: left; transition: transform 400ms ease; }
+    .qlink:hover::after { transform: scaleX(0.6); }
+    ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: #f5f2ec; } ::-webkit-scrollbar-thumb { background: #d8d2c8; border-radius: 0; }
+    .nav-link:hover { color: #c8a96e !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+  <link rel="stylesheet" href="assets/motion.css?v=4" />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="env,react" src="assets/site-chrome.jsx"></script>
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+    const N = ({children}) => <span style={{fontVariantNumeric:'tabular-nums',fontWeight:500,color:'#8a6e3e'}}>{children}</span>;
+
+    function App() {
+      return (
+        <>
+          <SiteNav current="venues.html" />
+          <PageHero
+            image="assets/venues-taiko.png"
+            tagline="For venues and underused rooms"
+            title={<>Turn the hours your room sits empty into the hours your room has a <em className="italic" style={{color:'#8a6e3e'}}>life</em>.</>}
+            thesis="Most venues are dark more than they're lit. Gather matches your empty hours with founders and teachers looking for exactly your kind of space — and handles the paperwork."
+          />
+
+          <SectionTransition bg="#efebe2" />
+          <Benefits
+            eyebrow="Why venues join"
+            title={<>A paid-for room that works <em className="italic" style={{color:'#8a6e3e'}}>harder</em>.</>}
+            items={[
+              { lead: 'We vet the people who book your room.', desc: "Every founder and teacher has a verified identity, a visible profile, and a track record we can see." },
+              { lead: 'Liability covered under our umbrella.', desc: 'Partner bookings run under Gather\'s insurance.' },
+              { lead: 'Weekly payouts, transparent fees.', desc: '15% flat. No subscription, no listing fee.' },
+              { lead: 'You set the terms.', desc: 'Hours, rates, capacity, dress code, house rules. Founders agree before booking.' },
+              { lead: 'Damages and disputes are ours to handle.', desc: "We handle it. A charge is applied and you are reimbursed — not asked to chase." },
+              { lead: 'Drive your own classes, too.', desc: 'Founders booking your room often refer their students to your own programming.' },
+            ]}
+          />
+
+          <CuratedInventory
+            eyebrow="Venues that fit"
+            title={<>The kind of <em className="italic" style={{color:'#8a6e3e'}}>space</em> that works.</>}
+            intro="Gather isn't picky about venue type. It's picky about care. Here's the range."
+            categories={[
+              { header: 'Residential',           items: ['converted homes','carriage houses','loft apartments','backyard studios','garden pavilions'] },
+              { header: 'Hospitality off-peak',  items: ['restaurants on closed days','cafés in evenings','breweries on Sundays','bars in daytime'] },
+              { header: 'Dedicated event space', items: ['galleries','event lofts','private dining rooms','rooftop terraces'] },
+              { header: 'Studios & workshops',   items: ['pottery studios','dance studios','co-working lounges','art ateliers','music production studios','recording spaces'] },
+              { header: 'Unusual spaces',        items: ['libraries','bookshops','barns','greenhouses','historic buildings'] },
+            ]}
+          />
+
+          <section className="w-full pb-24 md:pb-32">
+            <SectionHead eyebrow="How it works, in practice" title={<>A room that was <em className="italic" style={{color:'#8a6e3e'}}>already</em> there.</>} />
+
+            {/* WASH:venues */}
+            <div className="relative w-full overflow-hidden" style={{background:'#e8e2d4'}}>
+              <div aria-hidden className="gather-image-break" style={{position:'absolute', inset:0, backgroundImage:'url("assets/venues-gargoyle.jpg")', backgroundSize:'cover', backgroundPosition:'center', opacity:0.18, pointerEvents:'none', zIndex:0, transform:'scale(1.08)', transition:'transform 1200ms ease-out'}} />
+              <div style={{position:'relative', zIndex:1}}>
+                <CharacterPullout name="Meet Marcus." photo="assets/marcus.png" photoAlt="Marcus, Inglewood venue owner">
+              <p className="dropcap">Marcus is 47, a second-generation hospitality operator, and the owner of a <N>2,400 square foot</N> event space in Inglewood. He bought the building in 2019 — exposed brick, original hardwood, 14-foot ceilings, a full bar along the back wall, a private entrance off the alley. It's gorgeous. It's also, by his own honest math, operating at about <N>28%</N> capacity.</p>
+              <p>Friday and Saturday nights are solid — corporate events, milestone birthdays, the occasional wedding reception. Thursday evenings are okay. Everything else is a coin flip. Tuesday afternoons, Wednesday mornings, Sunday brunch hours — the calendar is wide open.</p>
+              <p>He's thought about hiring a bookings coordinator. The math doesn't work. Another <N>$4,500</N> a month in salary to chase inquiries that might yield <N>$6,000</N> in gross bookings is a bad trade. So the space sits empty, the mortgage doesn't care, and Marcus has started half-seriously wondering if he should just sell the building.</p>
+            </CharacterPullout>
+              </div>
+            </div>
+
+            <SectionTransition bg="#f5f2ec" />
+
+            <Beat pullQuote="Marcus approved them from his phone." first eyebrow="Day One" title={<>He <em className="italic" style={{color:'#8a6e3e'}}>lists</em> in 20 minutes.</>}>
+              <p>Marcus signs up at gather.place on a Wednesday morning. Twenty minutes later his listing is live: photos pulled from his existing website, availability synced from Google Calendar and his Airbnb listing (any booking there instantly blocks the slot on Gather — no double-bookings possible), daytime rate set at <N>$75/hour</N> with a 3-hour minimum, evening rate at <N>$125/hour</N>, Stripe Connect account linked for automatic payouts.</p>
+              <p>Within <N>72 hours</N> he gets three inquiries, all from the Gather side, all pre-matched. A weekly writing circle wants Tuesday mornings, 9am–noon. A monthly dinner club wants the last Thursday of each month. A yoga teacher wants Sunday mornings, recurring.</p>
+              <p>All three book. Marcus approved them from his phone.</p>
+            </Beat>
+
+            <Beat pullQuote="My favourite room in Calgary." eyebrow="Month Three" title={<>The calendar is filling <em className="italic" style={{color:'#8a6e3e'}}>itself</em>.</>}>
+              <p>Three recurring bookings have become seven. The writing circle is a fixture. The dinner club has become two dinner clubs. The Sunday yoga teacher has added a Wednesday evening restorative class. A board game night runs every other Saturday afternoon. A small AI tools workshop has booked a Saturday once a month.</p>
+              <p>Marcus's Tuesday, Wednesday, and Sunday calendar now shows <N>14 recurring bookings</N> per month that didn't exist before Gather. Average rate across those bookings: about <N>$260</N> per session after the 15% platform fee. Monthly revenue from previously-dead hours: <N>$3,640</N>. Annualized: <N>~$43,000</N> in income from time the building was literally sitting empty.</p>
+              <p>He has not chased a single invoice. He has not sent a single reminder email. The more interesting thing: the space has started to have a scene. Members from the dinner club ended up taking the yoga class. Someone posted a photo of the space on Instagram with the caption "my favourite room in Calgary."</p>
+            </Beat>
+
+            <Beat pullQuote="The building earns quietly in the background." eyebrow="Year One" title={<>The building <em className="italic" style={{color:'#8a6e3e'}}>pays</em> for itself.</>}>
+              <p>Twelve months in, recurring Gather bookings fill roughly <N>60%</N> of his previously-unused daytime hours. Annual revenue through Gather alone: <N>~$52,000</N>, net of platform fees. That's not the whole business. It's the incremental business, on top of what he was already doing.</p>
+              <p>He hasn't posted on Peerspace in eight months. He hasn't hired a bookings coordinator.</p>
+              <p>The space fills itself. He does the work he actually wants to do, which is running beautiful events on weekends. And the rest of the week, the building earns quietly in the background.</p>
+            </Beat>
+          </section>
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <StatementBanner text={<>The rooms are already built. They just need <em className="italic" style={{color:'#8a6e3e'}}>filling</em>.</>} />
+
+          <SectionTransition bg="#f5f2ec" />
+
+          <FAQ
+            eyebrow="Venue questions"
+            title={<>What you'd want to <em className="italic" style={{color:'#8a6e3e'}}>confirm</em>.</>}
+            items={[
+              { q: 'What kinds of venues are you looking for?', a: "Studios, commercial kitchens, galleries, meeting rooms, small event spaces, co-working backrooms, private dining rooms, community halls, artist studios. If a founder could run a 2–40 person session there, we want you." },
+              { q: "What's the fee structure?", a: 'A flat 15% platform fee on what renters pay you. No subscription, no listing charge. Payouts weekly.' },
+              { q: 'Who is liable if something goes wrong?', a: "Partner bookings run under Gather's shared liability umbrella. For damages and rule violations, our team handles the dispute." },
+              { q: 'Can I block out my own in-house classes?', a: "Yes. Your availability is yours to set. Most venue partners only expose their off-hours." },
+              { q: 'What if someone cancels last minute?', a: "Cancellations inside your defined window trigger a charge to the booker and a payout to you, as if the booking had happened." },
+              { q: 'Can I require approval before confirming?', a: "Yes. You can run instant-book on off-hours and require approval on prime hours." },
+              { q: 'Is there a minimum hour commitment?', a: "No. You can list one hour or one hundred. Pause or delist at any time." },
+            ]}
+          />
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <PageCTA
+            headline="Your room could be earning this week."
+            prompt="Tell us about your space. We'll tell you what we can fill it with."
+            buttonLabel="Partner with Gather"
+            role="venue"
+          />
+
+          <SectionDivider />
+
+          <SiteFooter pageNumber="05" />
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="assets/motion.js"></script>
+</body>
+</html>

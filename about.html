@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — Gather</title>
+  <meta name="description" content="Gather is a Calgary-founded marketplace rebuilding community in the physical world. Not an app. A place." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta property="og:site_name" content="Gather" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gather — Communities start here." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:title" content="About — Gather" />
+  <meta property="og:description" content="A Calgary-founded marketplace rebuilding community in the physical world." />
+  <meta property="og:url" content="https://gather.place/about" />
+  <meta name="twitter:title" content="About — Gather" />
+  <meta name="twitter:description" content="A Calgary-founded marketplace rebuilding community in the physical world." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="assets/tailwind-browser.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-parchment: #f5f2ec; --color-midnight: #0f0e0c; --color-amber: #c8a96e;
+      --color-cognac: #8a6e3e; --color-stone: #7a7670; --color-dust: #d8d2c8;
+      --font-serif: "Cormorant Garamond", Georgia, serif; --font-sans: "DM Sans", system-ui, sans-serif;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    html, body { background: #f5f2ec; color: #0f0e0c; }
+    body { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+    .display { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; }
+    .eyebrow { font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; font-size: 11px; }
+    .hair { border-color: #d8d2c8; }
+    ::selection { background: #c8a96e; color: #0f0e0c; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease-out, transform 700ms ease-out; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .photo-placeholder { background-color: #e4ddcf; background-image: repeating-linear-gradient(135deg, rgba(138,110,62,0.055) 0 1px, transparent 1px 14px); }
+    .field { background: transparent; border: 0; border-bottom: 1px solid #d8d2c8; padding: 14px 2px; font-family: "DM Sans", sans-serif; font-weight: 300; font-size: 16px; color: #0f0e0c; width: 100%; outline: none; transition: border-color 300ms ease; }
+    .field::placeholder { color: #a39d93; } .field:focus { border-color: #0f0e0c; }
+    select.field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230f0e0c' stroke-width='1'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 28px; }
+    textarea.field { min-height: 140px; padding: 14px; border: 1px solid #d8d2c8; border-radius: 2px; }
+    .cta, a.cta { display: inline-block; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.04em; padding: 16px 28px; font-size: 14px; border-radius: 2px; transition: background 300ms ease, color 300ms ease, transform 300ms ease; cursor: pointer; border: 0; }
+    .cta:hover { transform: translateY(-1px); }
+    .cta-amber { background: #c8a96e; color: #0f0e0c; } .cta-amber:hover { background: #b89659; }
+    .cta-cognac { background: #8a6e3e; color: #f5f2ec; } .cta-cognac:hover { background: #76592f; }
+    .qlink { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .qlink::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; opacity: 0.6; transform-origin: left; transition: transform 400ms ease; }
+    .qlink:hover::after { transform: scaleX(0.6); }
+    ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: #f5f2ec; } ::-webkit-scrollbar-thumb { background: #d8d2c8; border-radius: 0; }
+    .nav-link:hover { color: #c8a96e !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+  <link rel="stylesheet" href="assets/motion.css?v=2" />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="env,react" src="assets/site-chrome.jsx"></script>
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+    const N = ({children}) => <span style={{fontVariantNumeric:'tabular-nums',fontWeight:500,color:'#8a6e3e'}}>{children}</span>;
+
+    function Reveal({ children, className = '' }) {
+      const ref = useRef(null); const [inView, setInView] = useState(false);
+      useEffect(() => {
+        const obs = new IntersectionObserver(([e]) => e.isIntersecting && setInView(true), { threshold: 0.1 });
+        if (ref.current) obs.observe(ref.current);
+        return () => obs.disconnect();
+      }, []);
+      return <div ref={ref} className={`reveal ${inView?'in':''} ${className}`}>{children}</div>;
+    }
+
+    function FourSide({ n, who, body }) {
+      return (
+        <Reveal className="grid grid-cols-1 md:grid-cols-12 gap-8 py-10 border-t hair">
+          <div className="md:col-span-1 font-serif text-[36px]" style={{color:'#c8a96e',fontVariantNumeric:'tabular-nums'}}>{n}</div>
+          <div className="md:col-span-4">
+            <h3 className="display text-[28px] md:text-[34px] leading-[1.08] max-w-[18ch]">{who}</h3>
+          </div>
+          <div className="md:col-span-6 md:col-start-7 font-serif text-[19px] md:text-[21px] leading-[1.55]" style={{color:'#2a2722'}}>
+            {body}
+          </div>
+        </Reveal>
+      );
+    }
+
+    function App() {
+      return (
+        <>
+          <SiteNav current="about.html" />
+          <PageHero
+            image="uploads/living-room-1.1.jpg"
+            tagline="About Gather"
+            title={<>We're building the infrastructure for <em className="italic" style={{color:'#8a6e3e'}}>gathering</em>.</>}
+            thesis="In a world of screens, we're building rooms. This page is how we got here, what we believe, and what we think is about to happen."
+          />
+
+          {/* Opening — no heading */}
+          <section className="border-b hair">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-12">
+              <div className="md:col-span-5">
+                <Reveal>
+                  <h2 className="display text-[40px] md:text-[60px] leading-[1.02] max-w-[16ch]" style={{fontStyle:'italic',color:'#2a2722'}}>Something has been quietly <em className="italic" style={{color:'#8a6e3e'}}>breaking</em> in the way people live.</h2>
+                </Reveal>
+              </div>
+              <div className="md:col-span-6 md:col-start-7 font-serif text-[19px] md:text-[22px] leading-[1.55] space-y-6" style={{color:'#2a2722'}}>
+                <p>Not dramatically. Not all at once. Just the slow dismantling of the rooms that used to hold us — the hallway conversations at work, the neighbourhood coffee shop where you knew the baristas, the standing Thursday dinner, the weekly class where you saw the same faces until they stopped being strangers. The texture of a life has always been built out of these small, recurring rooms. Most of them have gotten harder to find.</p>
+                <p>The office emptied out and didn't fully come back. The community centre closed or got expensive. The friend group scattered to different cities. The studio where your favourite teacher taught shut its doors or raised its rates or changed its schedule. The book club fell apart in 2021 and never really reformed. Your Saturday afternoons got quieter, and then quieter, and eventually you noticed.</p>
+                <p>In the meantime, everything migrated to screens. Not just work. Friendship. Discovery. Belonging. The places we used to find each other in person became feeds, and the feeds — for all their convenience — are not rooms. They don't hold you. They don't give you the person you met once and kept bumping into. They don't turn strangers into regulars.</p>
+                <p>AI is about to accelerate all of this. More work from home. Fewer incidental meetings. Fewer hallway conversations. Fewer shared struggles. The default trajectory is that human connection gets harder to come by, not easier — and that the people who still want it will have to work harder to find it than any previous generation did.</p>
+                <p style={{color:'#0f0e0c',fontWeight:400}}>We don't think that's inevitable. We think it's an infrastructure problem.</p>
+              </div>
+            </div>
+          </section>
+
+          <SectionTransition bg="#efebe2" />
+
+          {/* Section 2 — The rooms are still there. */}
+          <section className="border-b hair" style={{background:'#efebe2'}}>
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 md:py-32">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-4">
+                <div className="md:col-span-5">
+                  <h2 className="display text-[44px] md:text-[68px] leading-[1.02] max-w-[14ch]">The <em className="italic" style={{color:'#8a6e3e'}}>rooms</em> are still there.</h2>
+                </div>
+                <div className="md:col-span-6 md:col-start-7 font-serif text-[19px] md:text-[22px] leading-[1.55] space-y-6" style={{color:'#2a2722'}}>
+                  <p>Every city has them. The luxury short-term rental that sits empty on Tuesdays. The restaurant with a private dining room that books on weekends and goes dark mid-week. The loft event space that's gorgeous and underused. The yoga studio with open Monday mornings. The co-working lounge after 5pm. The rooftop with a view that nobody's using because nobody's organized a reason to use it. In every city, an enormous amount of beautiful space is already built and already paid for and already waiting — empty, most of the time, for most of the week.</p>
+                  <p>The people are still there, too. The yoga teacher who's tired of keeping <N>8%</N> of the class fee. The software engineer who wants to run a monthly AI practitioners meetup but can't face the paperwork. The marketing manager who's been wanting to start an entrepreneurs dinner club for two years and can't bring herself to build the website. The newcomer to a city who just wants a standing Tuesday night. The parents whose kids are older and who are ready to have something of their own again.</p>
+                  <p style={{color:'#0f0e0c',fontWeight:400}}>What's missing isn't the space, and it isn't the people. What's missing is the connective tissue — the platform that puts them in the same room. That's what we're building.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <SectionTransition bg="#f5f2ec" />
+
+          {/* Section 3 — A four-sided marketplace for real life. */}
+          <section className="border-b hair">
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 pt-24 md:pt-32 pb-10">
+              <h2 className="display text-[44px] md:text-[72px] leading-[1] max-w-[14ch] mb-12">A four-sided marketplace for real <em className="italic" style={{color:'#8a6e3e'}}>life</em>.</h2>
+              <p className="font-serif text-[20px] md:text-[22px] leading-[1.5] max-w-[60ch]" style={{color:'#2a2722'}}>Gather connects four groups of people who all need each other and can't easily find each other today:</p>
+            </div>
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 pb-16">
+              <FourSide n="01" who="Venues with underused hours" body={<p>…who want recurring revenue without becoming a booking company.</p>} />
+              <FourSide n="02" who="Community founders with an idea" body={<p>…who want the business built around them so they can focus on the people, not the paperwork.</p>} />
+              <FourSide n="03" who="Teachers and practitioners" body={<p>…who want to run their own classes without signing a studio lease or building a website.</p>} />
+              <FourSide n="04" who="Members" body={<p>…who want more of their life to happen in rooms, not feeds.</p>} />
+            </div>
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 pb-24 md:pb-32 grid grid-cols-1 md:grid-cols-12 gap-12">
+              <div className="md:col-span-6 md:col-start-4 font-serif text-[19px] md:text-[21px] leading-[1.55] space-y-6" style={{color:'#2a2722'}}>
+                <p>Each one of these groups has been stuck for a different reason. Venues can't find the right tenants for off-peak hours. Organizers can't get past the activation energy of building a brand and a booking system from scratch. Teachers can't afford to go independent. Members can't find what they're looking for because half of it doesn't exist yet.</p>
+                <p>Gather takes the friction out of each side and, in doing so, makes the whole thing work. The venue lists in <N>twenty minutes</N>. The founder launches in an afternoon with an AI engine that generates everything they'd otherwise spend six months building. The teacher rents the room by the evening instead of signing a lease. The member opens the app and finds their people.</p>
+                <p>The platform takes a <N>15% commission</N> on every transaction and handles the payments, the calendar, the reminders, and the waitlists automatically. Nobody has to become an operations person. Nobody has to run a business they didn't want to run. The math works for everyone, because we're not trying to capture anyone's life — we're trying to remove the obstacles to them building one.</p>
+              </div>
+            </div>
+          </section>
+
+          <SectionTransition bg="#efebe2" />
+
+          {/* Section 4 — Starting in Calgary. */}
+          <section className="border-b hair" style={{background:'#efebe2'}}>
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-12">
+              <div className="md:col-span-5">
+                <h2 className="display text-[44px] md:text-[68px] leading-[1.02] max-w-[14ch]">Starting in <em className="italic" style={{color:'#8a6e3e'}}>Calgary</em>.</h2>
+              </div>
+              <div className="md:col-span-6 md:col-start-7 font-serif text-[19px] md:text-[22px] leading-[1.55] space-y-6" style={{color:'#2a2722'}}>
+                <p>We're launching in Calgary in <N>2026</N>. Two anchor venues are already committed, with six more in conversation. The platform is designed to scale from Calgary to national from day one — Edmonton, Vancouver, and Toronto are on the roadmap — but we're starting in one city because real communities are built one city at a time, and because starting local is how you learn what a platform like this actually needs to be.</p>
+                <p>Over the next <N>five years</N>, we intend to build the connective tissue for gathering across Canada. A thousand communities. Tens of thousands of members. Hundreds of venues turning dead hours into recurring revenue. Teachers running their own practices without the overhead. Founders launching what they've been meaning to launch for years. A small and quiet shift in the ambient availability of real rooms in real cities for real people.</p>
+                <p style={{color:'#0f0e0c',fontWeight:400}}>That's the thing we're here to build.</p>
+              </div>
+            </div>
+          </section>
+
+          <SectionTransition bg="#e8e2d4" />
+
+          {/* Section 5 — The shape of the bet. */}
+          <section className="border-b hair relative overflow-hidden" style={{background:'#e8e2d4'}}>
+            <div aria-hidden style={{position:'absolute', inset:0, backgroundImage:'url("assets/contact-dinner-table.png")', backgroundSize:'cover', backgroundPosition:'center', opacity:0.18, pointerEvents:'none', zIndex:0}} />
+            <div style={{position:'relative', zIndex:1}} className="max-w-[1400px] mx-auto px-6 md:px-12 py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-12">
+              <div className="md:col-span-5">
+                <h2 className="display text-[44px] md:text-[68px] leading-[1.02] max-w-[14ch]">The shape of the <em className="italic" style={{color:'#8a6e3e'}}>bet</em>.</h2>
+              </div>
+              <div className="md:col-span-6 md:col-start-7 font-serif text-[19px] md:text-[22px] leading-[1.55] space-y-6" style={{color:'#2a2722'}}>
+                <p>The people who've been telling us this business won't work are usually making one of two arguments.</p>
+                <p><em>The first</em> is that people don't want community anymore — that we've all gotten too comfortable alone, too addicted to our feeds, too socially anxious to show up to a room of strangers. We don't believe this, and neither does the data. The appetite for real-world gathering has never been higher. The thing that's missing isn't demand. It's the permission structure — the platform that makes joining something feel as easy as scrolling, that makes starting something feel as light as posting.</p>
+                <p><em>The second</em> is that platforms like this have been tried before. Meetup. Eventbrite. Peerspace. They exist, they're used, and none of them have solved this. That's true, and it's also the reason the opportunity is still open. Meetup indexes events; it doesn't build communities. Eventbrite sells tickets; it doesn't create recurring rooms. Peerspace rents spaces; it doesn't fill them. Each of those tools does one side of a four-sided problem. What's missing is the thing that does all four at once — and does them with the AI tools that finally make it possible to turn "I have an idea" into "I have a live community" in a single afternoon.</p>
+                <p style={{color:'#0f0e0c',fontWeight:400}}>That's the shape of the bet. Not that community has become harder and needs saving. Community has always been the point. But the infrastructure to find it, start it, and sustain it has eroded faster than the alternatives have been built. Gather is the alternative.</p>
+              </div>
+            </div>
+          </section>
+
+          <SectionTransition bg="#0f0e0c" />
+
+          {/* Statement banner */}
+          <StatementBanner text={<>In a world of screens, we're building <em className="italic" style={{color:'#8a6e3e'}}>rooms</em>.</>} />
+
+          {/* Closing — Communities start here. */}
+          <section style={{background:'#0f0e0c', color:'#f5f2ec'}}>
+            <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-28 md:py-40 text-center">
+              <div className="eyebrow mb-8" style={{color:'#c8a96e'}}>Communities start here</div>
+              <p className="font-serif text-[18px] md:text-[20px] max-w-[52ch] mx-auto mb-10" style={{color:'#d8d2c8'}}>Everything we're building comes back to one line, which is the first line on the homepage and will probably be the last line of this page too:</p>
+              <h2 className="display text-[56px] md:text-[104px] leading-[0.98] max-w-[18ch] mx-auto" style={{fontStyle:'italic'}}>In a world of screens, we're building <em className="italic" style={{color:'#8a6e3e'}}>rooms</em>.</h2>
+              <p className="font-serif text-[20px] md:text-[22px] mt-12 max-w-[56ch] mx-auto" style={{color:'#d8d2c8'}}>If that sounds like a thing you want to be part of — as a venue, a founder, a teacher, or a member — we'd love to hear from you.</p>
+              <a href="index.html#waitlist" className="cta cta-amber mt-10">Join the waitlist →</a>
+            </div>
+          </section>
+
+          <SectionDivider />
+
+          <SiteFooter pageNumber="06" />
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="assets/motion.js"></script>
+</body>
+</html>

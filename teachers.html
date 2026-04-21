@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Teachers & Practitioners — Gather</title>
+  <meta name="description" content="Teach what you love, on your own terms. Gather gives teachers a full business in an afternoon — brand, landing page, bookings, payments, and venues — so you can focus on the practice, not the admin." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta property="og:site_name" content="Gather" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gather — Communities start here." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:title" content="Teach what you love — Gather" />
+  <meta property="og:description" content="A full business for teachers and practitioners in an afternoon. Your craft. Your students. Your rate." />
+  <meta property="og:url" content="https://gather.place/teachers" />
+  <meta name="twitter:title" content="Teach what you love — Gather" />
+  <meta name="twitter:description" content="A full business for teachers and practitioners in an afternoon. Your craft. Your students. Your rate." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="assets/tailwind-browser.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-parchment: #f5f2ec; --color-midnight: #0f0e0c; --color-amber: #c8a96e;
+      --color-cognac: #8a6e3e; --color-stone: #7a7670; --color-dust: #d8d2c8;
+      --font-serif: "Cormorant Garamond", Georgia, serif; --font-sans: "DM Sans", system-ui, sans-serif;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    html, body { background: #f5f2ec; color: #0f0e0c; }
+    body { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+    .display { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; }
+    .eyebrow { font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; font-size: 11px; }
+    .hair { border-color: #d8d2c8; }
+    ::selection { background: #c8a96e; color: #0f0e0c; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease-out, transform 700ms ease-out; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+        .dropcap::first-letter { float: left; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; color: #8a6e3e; font-size: 5.4em; line-height: 0.85; margin-right: 12px; margin-top: 8px; padding-top: 4px; }
+    .photo-placeholder { background-color: #e4ddcf; background-image: repeating-linear-gradient(135deg, rgba(138,110,62,0.055) 0 1px, transparent 1px 14px); }
+    .field { background: transparent; border: 0; border-bottom: 1px solid #d8d2c8; padding: 14px 2px; font-family: "DM Sans", sans-serif; font-weight: 300; font-size: 16px; color: #0f0e0c; width: 100%; outline: none; transition: border-color 300ms ease; }
+    .field::placeholder { color: #a39d93; } .field:focus { border-color: #0f0e0c; }
+    select.field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230f0e0c' stroke-width='1'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 28px; }
+    textarea.field { min-height: 140px; padding: 14px; border: 1px solid #d8d2c8; border-radius: 2px; }
+    .cta, a.cta { display: inline-block; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.04em; padding: 16px 28px; font-size: 14px; border-radius: 2px; transition: background 300ms ease, color 300ms ease, transform 300ms ease; cursor: pointer; border: 0; }
+    .cta:hover { transform: translateY(-1px); }
+    .cta-amber { background: #c8a96e; color: #0f0e0c; } .cta-amber:hover { background: #b89659; }
+    .cta-cognac { background: #8a6e3e; color: #f5f2ec; } .cta-cognac:hover { background: #76592f; }
+    .qlink { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .qlink::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; opacity: 0.6; transform-origin: left; transition: transform 400ms ease; }
+    .qlink:hover::after { transform: scaleX(0.6); }
+    ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: #f5f2ec; } ::-webkit-scrollbar-thumb { background: #d8d2c8; border-radius: 0; }
+    .nav-link:hover { color: #c8a96e !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+  <link rel="stylesheet" href="assets/motion.css?v=4" />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="env,react" src="assets/site-chrome.jsx"></script>
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+    const N = ({children}) => <span style={{fontVariantNumeric:'tabular-nums',fontWeight:500,color:'#8a6e3e'}}>{children}</span>;
+
+    function App() {
+      return (
+        <>
+          <SiteNav current="teachers.html" />
+          <PageHero
+            image="assets/teachers-yoga-class.png"
+            tagline="For teachers, guides, and practitioners"
+            title={<>Teach what you <em className="italic" style={{color:'#8a6e3e'}}>know</em>. To people who showed up for it.</>}
+            thesis="You don't want a bigger platform. You want full rooms of the right people, a calendar that respects your craft, and nothing between you and teaching. Gather is built for you, not for the algorithm."
+          />
+
+          <SectionTransition bg="#efebe2" />
+          <Benefits
+            eyebrow="What Gather gives you"
+            title={<>The tools of running a studio — without running a <em className="italic" style={{color:'#8a6e3e'}}>studio</em>.</>}
+            items={[
+              { lead: 'Verified credentials that students can see.', desc: 'We verify your certifications against registries when we can.' },
+              { lead: 'A venue network at partner rates.', desc: 'Book the right room without maintaining rental relationships yourself.' },
+              { lead: 'Your email list stays yours.', desc: 'You own the relationship with every student who takes a class from you.' },
+              { lead: 'Series, drop-ins, memberships — your choice.', desc: 'Structure your offerings however suits your teaching.' },
+              { lead: 'You keep 85%.', desc: 'A flat 15% platform fee. No subscription, no per-transaction cost.' },
+              { lead: 'Liability covered.', desc: 'Classes at partner venues are covered under a shared liability umbrella.' },
+            ]}
+          />
+
+          <CuratedInventory
+            eyebrow="What you can teach here"
+            title={<>The range of <em className="italic" style={{color:'#8a6e3e'}}>practice</em>.</>}
+            intro="Whatever you teach, the structure is the same — a room, a schedule, your students."
+            categories={[
+              { header: 'AI & tools',             items: ['AI fundamentals','prompt engineering','Claude & GPT for professionals','vibe coding','Cursor workshops','building with LLMs'] },
+              { header: 'Music production & DJ',  items: ['Ableton','Logic Pro','DJing fundamentals','sound design','mixing & mastering','beat making','turntablism'] },
+              { header: 'Movement & wellness',    items: ['yoga','pilates','breathwork','running technique','mobility','meditation'] },
+              { header: 'Craft & making',         items: ['pottery','painting','jewelry','woodworking','letterpress','ceramics'] },
+              { header: 'Food & drink',           items: ['cooking classes','baking','wine','cocktails','tea ceremony','fermentation'] },
+              { header: 'Music & performance',    items: ['piano','guitar','voice','improv','songwriting','music theory'] },
+              { header: 'Thought & skill',        items: ['writing','public speaking','photography','language','philosophy','critical thinking'] },
+            ]}
+          />
+
+          <section className="w-full pb-24 md:pb-32">
+            <SectionHead eyebrow="How it works, in practice" title={<>The class you were meant to <em className="italic" style={{color:'#8a6e3e'}}>teach</em>.</>} />
+
+            {/* WASH:teachers */}
+            <div className="relative w-full overflow-hidden" style={{background:'#e8e2d4'}}>
+              <div aria-hidden className="gather-image-break" style={{position:'absolute', inset:0, backgroundImage:'url("assets/teachers-keyboard-lesson.png")', backgroundSize:'cover', backgroundPosition:'center', opacity:0.18, pointerEvents:'none', zIndex:0, transform:'scale(1.08)', transition:'transform 1200ms ease-out'}} />
+              <div style={{position:'relative', zIndex:1}}>
+                <CharacterPullout name="Meet Maya." photo="assets/maya.png" photoAlt="Maya, Calgary yoga teacher">
+              <p className="dropcap">Maya is 36, has been teaching yoga in Calgary for eleven years, and is the instructor people ask for by name at two of the city's better-known boutique studios. She teaches four classes a week on someone else's schedule, at someone else's rate, in someone else's room.</p>
+              <p>She's good. She has a following. After a decade of it, she's also quietly exhausted by the arithmetic of the business she works inside. The studios pay her <N>$45 a class</N>. A full room of 20 students at <N>$28</N> a drop-in generates <N>$560</N> in revenue. Maya sees about <N>8%</N> of it. The rest goes to rent, front desk, software, retail, marketing, and the studio's margin — all of which she understands, and none of which she wants to keep subsidising for the rest of her career.</p>
+              <p>She's thought about opening her own studio. She's run the numbers more than once. A small Calgary space — <N>1,200 square feet</N>, decent neighbourhood, basic build-out — runs <N>$4,500 to $6,000</N> a month before utilities. To break even she'd need to fill <N>90 class-spots a week</N>, every week, from day one. The runway is too long. The commitment is too total. The risk, for a solo practitioner with two kids and a mortgage, is too real.</p>
+              <p>What she actually wants is in between. Three or four classes a month. Her own students, her own style, her own rate. A space that's nicer than a community hall, for an evening at a time, without signing a lease.</p>
+            </CharacterPullout>
+              </div>
+            </div>
+
+            <SectionTransition bg="#f5f2ec" />
+
+            <Beat pullQuote="She has sent three text messages to friends telling them she finally did it." first eyebrow="Day One" title={<>She <em className="italic" style={{color:'#8a6e3e'}}>launches</em> in an afternoon.</>}>
+              <p>Maya signs up at gather.place on a Sunday afternoon. She tells the AI launch engine: slow flow and restorative, for women in their 30s and 40s who've practiced for a while and want something quieter than the heated class at a big studio. Monthly cadence, starting. Small rooms. Calgary inner city.</p>
+              <p>An hour later she has a name (<em>Slow Practice Calgary</em>), a logo, and a landing page. A class structure — <N>75-minute</N> evening sessions, <N>$32</N> per spot, capped at <N>14 students</N> per class, two classes per month to start. Ad copy targeted to Calgary women aged 30–50 who follow yoga, wellness, and mindfulness content.</p>
+              <p>A matched venue — a loft space in Bridgeland with good wood floors, soft light, and a small sound system, available on Monday evenings. A mailing list tool with pre-written email templates she can send to her existing student contacts.</p>
+              <p>She runs <N>$150</N> in ads that first week and emails her list of former students. By the following weekend both classes are full, and a waitlist of <N>nine</N> has started forming.</p>
+            </Beat>
+
+            <Beat pullQuote="It's additive income." eyebrow="Month Three" title={<>A real <em className="italic" style={{color:'#8a6e3e'}}>practice</em> takes shape.</>}>
+              <p>Three months in. Maya has run six classes. The room has filled every time. Her waitlist has grown to the point that she's added a third monthly class — same venue, Sunday mornings — and quietly raised the price to <N>$36</N>.</p>
+              <p>Her numbers: three classes per month, averaging <N>13 students</N> per class, <N>$36</N> per spot. Monthly gross revenue around <N>$1,400</N>. After the 15% platform fee, the venue cost, and a small monthly mat-rental expense, she's clearing around <N>$750 a month</N> — on roughly six hours of actual teaching time and maybe two hours a month of organization.</p>
+              <p>That's not replacement income. It's additive income — money on top of her boutique-studio classes, for work she fully controls. More importantly: the students are hers. The mailing list is hers. The brand is hers. If a studio closes or changes its schedule, none of that touches Slow Practice Calgary.</p>
+            </Beat>
+
+            <Beat pullQuote="She built a practice. That's what she always wanted." eyebrow="Year One" title={<>She's running her <em className="italic" style={{color:'#8a6e3e'}}>own</em> thing.</>}>
+              <p>Twelve months in, Maya is teaching <N>four</N> Slow Practice classes per month at two different venues — the Bridgeland loft and a second space in Mission she added after six months.</p>
+              <p>Annual revenue through Gather: about <N>$22,000</N>, net of platform fees and venue costs. She still teaches two classes a week at her original boutique studio, but she's planning to drop one in the spring to add a second weekly Slow Practice slot. The transition from employee of a studio to independent teacher with her own audience has happened gradually, without a single big risky leap.</p>
+              <p>She did not sign a lease. She did not hire a front desk. She did not spend <N>$80,000</N> building out a studio. What she did was rent rooms by the evening, teach the classes she actually wanted to teach, and build a direct relationship with her students.</p>
+              <p>She built a practice. That's what she always wanted.</p>
+            </Beat>
+          </section>
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <StatementBanner text={<>Teach the class. Keep the students. Own the <em className="italic" style={{color:'#8a6e3e'}}>practice</em>.</>} />
+
+          <SectionTransition bg="#f5f2ec" />
+
+          <FAQ
+            eyebrow="Teacher questions"
+            title={<>What you'd want to <em className="italic" style={{color:'#8a6e3e'}}>know</em>.</>}
+            items={[
+              { q: 'What disciplines are you set up for?', a: "Yoga, meditation, movement, dance, martial arts, cooking, writing, visual art, music, and a long tail of niche practices. If you're certified to teach it and there's a venue in the network that fits, you can run it." },
+              { q: 'Do I have to be certified?', a: 'It depends on the discipline. For regulated practices we verify certifications. For unregulated practices we display your self-described experience and let your students\' reviews do the rest.' },
+              { q: "What's the fee structure?", a: 'We take 15% of what students pay. You pay for your own venue and materials. No subscription, no setup fee.' },
+              { q: 'Can I bring my existing students onto Gather?', a: "Yes — and you should. Import your email list and invite them directly." },
+              { q: 'What about private or corporate sessions?', a: 'You can run invitation-only sessions, corporate bookings, and one-on-ones through Gather.' },
+              { q: 'Do I compete with a studio algorithm?', a: "No. Students find you through search, interest lists, and word of mouth." },
+              { q: 'Can I run through Gather and my own studio?', a: "That's fine. Many of our teachers do." },
+            ]}
+          />
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <PageCTA
+            headline="Teach the class you actually want to teach."
+            prompt="Create a teacher profile. Fill your first room."
+            buttonLabel="Apply to teach"
+            role="teacher"
+          />
+
+          <SectionDivider />
+
+          <SiteFooter pageNumber="04" />
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="assets/motion.js"></script>
+</body>
+</html>

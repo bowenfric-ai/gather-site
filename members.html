@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Members — Gather</title>
+  <meta name="description" content="Find real communities and classes in your city. Join a dinner club, a book club, or a weekly run group. Gather is one place to find your people in Calgary — and signal interest in the communities that don't exist yet." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="icon" type="image/png" href="assets/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta property="og:site_name" content="Gather" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_CA" />
+  <meta property="og:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Gather — Communities start here." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://gather.place/assets/og-image.png" />
+  <meta property="og:title" content="Join something real — Gather" />
+  <meta property="og:description" content="Real communities, real rooms, real people. Join something that already exists in your city, or signal interest in what you wish did." />
+  <meta property="og:url" content="https://gather.place/members" />
+  <meta name="twitter:title" content="Join something real — Gather" />
+  <meta name="twitter:description" content="Real communities, real rooms, real people. Join something that already exists in your city, or signal interest in what you wish did." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="assets/tailwind-browser.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --color-parchment: #f5f2ec; --color-midnight: #0f0e0c; --color-amber: #c8a96e;
+      --color-cognac: #8a6e3e; --color-stone: #7a7670; --color-dust: #d8d2c8;
+      --font-serif: "Cormorant Garamond", Georgia, serif; --font-sans: "DM Sans", system-ui, sans-serif;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <style>
+    html, body { background: #f5f2ec; color: #0f0e0c; }
+    body { font-family: "DM Sans", system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    .font-serif { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; letter-spacing: -0.01em; }
+    .display { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; line-height: 1.02; letter-spacing: -0.02em; }
+    .eyebrow { font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; font-size: 11px; }
+    .hair { border-color: #d8d2c8; }
+    ::selection { background: #c8a96e; color: #0f0e0c; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 700ms ease-out, transform 700ms ease-out; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+        .dropcap::first-letter { float: left; font-family: "Cormorant Garamond", Georgia, serif; font-weight: 300; color: #8a6e3e; font-size: 5.4em; line-height: 0.85; margin-right: 12px; margin-top: 8px; padding-top: 4px; }
+    .photo-placeholder { background-color: #e4ddcf; background-image: repeating-linear-gradient(135deg, rgba(138,110,62,0.055) 0 1px, transparent 1px 14px); }
+    .field { background: transparent; border: 0; border-bottom: 1px solid #d8d2c8; padding: 14px 2px; font-family: "DM Sans", sans-serif; font-weight: 300; font-size: 16px; color: #0f0e0c; width: 100%; outline: none; transition: border-color 300ms ease; }
+    .field::placeholder { color: #a39d93; } .field:focus { border-color: #0f0e0c; }
+    select.field { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%230f0e0c' stroke-width='1'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; padding-right: 28px; }
+    textarea.field { min-height: 140px; padding: 14px; border: 1px solid #d8d2c8; border-radius: 2px; }
+    .cta, a.cta { display: inline-block; font-family: "DM Sans", sans-serif; font-weight: 500; letter-spacing: 0.04em; padding: 16px 28px; font-size: 14px; border-radius: 2px; transition: background 300ms ease, color 300ms ease, transform 300ms ease; cursor: pointer; border: 0; }
+    .cta:hover { transform: translateY(-1px); }
+    .cta-amber { background: #c8a96e; color: #0f0e0c; } .cta-amber:hover { background: #b89659; }
+    .cta-cognac { background: #8a6e3e; color: #f5f2ec; } .cta-cognac:hover { background: #76592f; }
+    .qlink { position: relative; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .qlink::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: currentColor; opacity: 0.6; transform-origin: left; transition: transform 400ms ease; }
+    .qlink:hover::after { transform: scaleX(0.6); }
+    ::-webkit-scrollbar { width: 10px; } ::-webkit-scrollbar-track { background: #f5f2ec; } ::-webkit-scrollbar-thumb { background: #d8d2c8; border-radius: 0; }
+    .nav-link:hover { color: #c8a96e !important; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Members-only: the dinner-table hero image is bright and warm, so the
+       default shared overlay doesn't give the white thesis copy enough
+       contrast. Add an extra dedicated gradient layer between the photo and
+       the text container. Scoped to this page only — does not affect other
+       pillar pages. */
+    .gather-hero-root::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(
+        to top,
+        rgba(15, 14, 12, 0.88) 0%,
+        rgba(15, 14, 12, 0.72) 22%,
+        rgba(15, 14, 12, 0.40) 48%,
+        rgba(15, 14, 12, 0) 72%
+      );
+    }
+  </style>
+  <link rel="stylesheet" href="assets/motion.css?v=4" />
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="env,react" src="assets/site-chrome.jsx"></script>
+  <script type="text/babel" data-presets="env,react">
+    const { useState, useEffect, useRef } = React;
+    const N = ({children}) => <span style={{fontVariantNumeric:'tabular-nums',fontWeight:500,color:'#8a6e3e'}}>{children}</span>;
+
+    function App() {
+      return (
+        <>
+          <SiteNav current="members.html" />
+          <PageHero
+            image="assets/members-boxing-class.png"
+            tagline="For members"
+            title={<>Join something <em className="italic" style={{color:'#8a6e3e'}}>real</em>.</>}
+            thesis="You want more of your life to happen in rooms, not feeds. Gather is one place to find your people in your city — and signal interest in the communities that don't exist yet."
+          />
+
+          <SectionTransition bg="#efebe2" />
+          <Benefits
+            eyebrow="What we do for members"
+            title={<>Everything you need to find your <em className="italic" style={{color:'#8a6e3e'}}>people</em>.</>}
+            items={[
+              { lead: 'One place to find real communities and classes near you.', desc: 'Browse by interest, neighbourhood, and schedule.' },
+              { lead: 'Join, book, and pay for everything in one spot.', desc: 'One account, one payment method, one calendar view.' },
+              { lead: 'Everything handled automatically.', desc: 'Calendar invites, reminders, receipts, waitlists. You never have to track a thing.' },
+              { lead: "Signal interest in what doesn't exist yet.", desc: "Add yourself to the interest list for the community you wish was in your city." },
+              { lead: 'Discover new groups early.', desc: 'Be in the founding cohort — not the waitlist two years in.' },
+            ]}
+          />
+
+          <CuratedInventory
+            eyebrow="What you can find here"
+            title={<>A sense of what's <em className="italic" style={{color:'#8a6e3e'}}>possible</em>.</>}
+            intro="Every week, people in your city are hosting something. Here's a sense of the range."
+            categories={[
+              { header: 'Building & AI',        items: ['AI Practitioners Circle','AI Tools Club','Prompt Engineering Nights','Builder Breakfast','Vibe Coding Saturdays','Claude & GPT for Professionals'] },
+              { header: 'Music & sound',        items: ['Music Production Club','DJ Practice Nights','Ableton Circle','Beatmakers Meetup','Sound Design Workshop','Vinyl Listening Sessions'] },
+              { header: 'Dinner & table',       items: ['Sunday Dinner Club','First Friday Suppers','Ramen Tuesdays','Long Table Potluck','Wine Club'] },
+              { header: 'Movement',             items: ['Saturday Morning Run Club','Rooftop Yoga','Pickleball League','Dance Nights','Winter Hiking Group'] },
+              { header: 'Making',               items: ['Paint Night','Pottery Sundays','Watercolor Club','Fiction Writers Group','Piano Lessons','Woodshop'] },
+              { header: 'Mind & conversation',  items: ['Book Club','French Conversation','Chess Club','Philosophy Salon','Meditation Mornings','Film Society'] },
+              { header: 'Work & craft',         items: ['Entrepreneurs Circle','Founders Breakfast','Product Design Meetup','Indie Hackers','Creative Directors Circle'] },
+            ]}
+          />
+
+          <section className="w-full pb-24 md:pb-32">
+            <SectionHead eyebrow="How it works, in practice" title={<>Finding a <em className="italic" style={{color:'#8a6e3e'}}>rhythm</em> in a new city.</>} />
+
+            {/* WASH:members */}
+            <div className="relative w-full overflow-hidden" style={{background:'#e8e2d4'}}>
+              <div aria-hidden className="gather-image-break" style={{position:'absolute', inset:0, backgroundImage:'url("assets/members-dinner-table.png")', backgroundSize:'cover', backgroundPosition:'center', opacity:0.18, pointerEvents:'none', zIndex:0, transform:'scale(1.08)', transition:'transform 1200ms ease-out'}} />
+              <div style={{position:'relative', zIndex:1}}>
+                <CharacterPullout name="Priya" photo="assets/priya.png" photoAlt="Priya, new to Calgary">
+              <p className="dropcap">Priya is 29, a product designer, and six weeks into a new life in Calgary. She moved from Toronto for a job she's excited about, into a one-bedroom in Kensington she's quietly proud of. The move was the right call. She's sure of that. She's less sure what to do with her Saturdays.</p>
+              <p>In Toronto she had a life. A standing Wednesday dinner with four friends from design school. A book club that met at the same wine bar for three years. A weekend ritual of walking the Danforth with her sister. None of that transferred. Her Wednesday group has a new chair. The book club is reading without her.</p>
+              <p>She tried the obvious things — downloaded Meetup and closed it ten minutes later, joined two Calgary subreddits that were mostly complaints about traffic, went to one yoga class and went home to an empty apartment feeling exactly as alone as before. She has a coworker who keeps inviting her to drinks with the same five people, and while they're kind, they're not hers. She's not lonely, exactly. She's unrooted.</p>
+            </CharacterPullout>
+              </div>
+            </div>
+
+            <SectionTransition bg="#f5f2ec" />
+
+            <Beat pullQuote="They exchange numbers, because that's how it starts." first eyebrow="Day One" title={<>She finds her way <em className="italic" style={{color:'#8a6e3e'}}>in</em>.</>}>
+              <p>Priya signs up at gather.place on a Thursday night. The onboarding asks her a few questions: what neighbourhood, what interests, what times work.</p>
+              <p>Fifteen minutes of browsing later, she has three tabs open: <em>Slow Practice Calgary</em> (Monday-evening restorative yoga in Bridgeland), <em>Pages & Pinot</em> (a monthly book club at a wine bar in Mission), and <em>Weekend Ramblers</em> (Saturday walking group rotating along the Bow). She signs up for all three. The total cost is <N>$68 for the month</N>.</p>
+              <p>She also adds herself to two interest lists — communities that don't exist yet but that she'd join if they did. South Asian women in Calgary tech (<N>17 interested</N>). Singles dinner club for 30-somethings who aren't trying to date, just eat with strangers (<N>42 interested</N>). The platform promises to notify her if either gets built.</p>
+              <p>That Monday she goes to yoga. She doesn't know anyone. After class she ends up in a short conversation with the woman who had the mat next to her. They exchange numbers, because that's how it starts.</p>
+            </Beat>
+
+            <Beat pullQuote="Her text threads have Calgary names in them." eyebrow="Month Three" title={<>The rhythm is <em className="italic" style={{color:'#8a6e3e'}}>back</em>.</>}>
+              <p>Three months in, Priya has a schedule. Not a packed one — that was never the goal — but a rhythm. Yoga on Mondays. Book club second Tuesday. Walking group alternating Saturdays.</p>
+              <p>More importantly, she knows people now. The woman from yoga became a regular coffee. Two people from the walking group turned into a Friday evening hike-and-pizza thing. One of the interest lists she joined — the South Asian women in tech community — hit <N>28 signups</N>, and a Calgary founder launched it with Priya in the first cohort.</p>
+              <p>She hasn't thought about Meetup since her first week.</p>
+            </Beat>
+
+            <Beat pullQuote="Calgary is home." eyebrow="Year One" title={<>Calgary is <em className="italic" style={{color:'#8a6e3e'}}>home</em>.</>}>
+              <p>Twelve months in, Priya's life looks nothing like it did in month one, and not because anything dramatic happened. She just kept showing up. She has a core of <N>twelve people</N> she considers real friends, most of whom she met through two or three communities she stayed with. She knows the baristas at her coffee shop, the regulars at the walking group who'd notice if she stopped showing up.</p>
+              <p>She did not have to be brave. What she did was find rooms that were already forming, show up consistently, and let time do what time does when you put it in the right rooms.</p>
+            </Beat>
+          </section>
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <StatementBanner text={<>You don't find your people. You show up where they're <em className="italic" style={{color:'#8a6e3e'}}>forming</em>.</>} />
+
+          <SectionTransition bg="#f5f2ec" />
+
+          <FAQ
+            eyebrow="Frequently asked"
+            title={<>Common questions from <em className="italic" style={{color:'#8a6e3e'}}>members</em>.</>}
+            items={[
+              { q: 'Do I have to pay a membership fee to Gather?', a: 'Gather itself is free to join and browse. You only pay for the communities and classes you actually join.' },
+              { q: 'How do I know if a community is any good?', a: "Every community has a detailed page — what it is, who's running it, what past sessions have looked like, and how current members describe it. Most offer a single drop-in option before committing." },
+              { q: "What if I try something and it's not for me?", a: 'Most communities let you cancel anytime with no penalty.' },
+              { q: 'Is this for a specific age group?', a: "No. It's built for anyone who wants more of their life to happen in rooms rather than feeds." },
+              { q: "What if the community I want doesn't exist yet?", a: 'Add yourself to the interest list. When enough people signal interest, we reach out to potential founders who could build it.' },
+              { q: 'What cities are you in?', a: 'Calgary first. Edmonton, Vancouver, and Toronto are next.' },
+            ]}
+          />
+
+          <SectionTransition bg="#0f0e0c" />
+
+          <PageCTA
+            headline="Ready to find your people?"
+            prompt="Be first when Gather opens in your city — as a member."
+            buttonLabel="Join the waitlist — Member"
+            role="member"
+          />
+
+          <SectionDivider />
+
+          <SiteFooter pageNumber="02" />
+        </>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+  <script src="assets/motion.js"></script>
+</body>
+</html>
