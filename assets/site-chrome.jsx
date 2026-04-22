@@ -109,7 +109,7 @@ function SiteNav({ current, overHero = true }) {
                }}>Contact</a>
           </div>
           <a
-            href="Gather Homepage.html#waitlist"
+            href="/#waitlist"
             className="hidden md:inline-block cta cta-amber nav-waitlist-cta"
             style={{ padding: '10px 20px', fontSize: 13, whiteSpace: 'nowrap' }}
           >
@@ -602,7 +602,7 @@ function SiteFooter({ pageNumber }) {
             <a href="privacy.html" style={linkStyle}>Privacy</a>
           </div>
           <div className="gather-footer-col">
-            <a href="Gather Homepage.html#waitlist" style={waitlistStyle}>Join waitlist</a>
+            <a href="/#waitlist" style={waitlistStyle}>Join waitlist</a>
           </div>
         </div>
 
