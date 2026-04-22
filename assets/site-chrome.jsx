@@ -77,7 +77,7 @@ function SiteNav({ current, overHero = true }) {
         }}
       />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-5 flex items-center justify-between" style={{position:'relative', zIndex: 1}}>
-        <a href="Gather Homepage.html" className="inline-flex items-center" style={{gap: '14px'}}>
+        <a href="/" className="inline-flex items-center" style={{gap: '14px'}}>
           <ConvergenceMark size={7} gap={4} />
           <span className="font-serif" style={{fontSize:'28px', fontWeight: 400, letterSpacing: '-0.01em', color: textColor, textShadow, transition: 'color 400ms ease'}}>Gather</span>
         </a>
